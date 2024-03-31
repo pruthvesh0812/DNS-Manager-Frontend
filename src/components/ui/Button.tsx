@@ -1,10 +1,14 @@
 
-import { buttonType } from '../../types/componentTypes'
 
-export default function Button(props: buttonType) {
+
+export default function Button({ text, callBack }: { text: string, callBack: (() => Promise<void>) | (() => void) }) {
   return (
     <div>
-      <button className='bg-orange-500 text-white px-2 py-1 rounded-sm ml-2 text-sm font-bold'>{props.text}</button>
+      <button
+        onClick={callBack}
+        className='bg-orange-500 text-white px-2 py-1 rounded ml-2 text-md font-bold '>
+        {text}
+      </button>
     </div>
   )
 }

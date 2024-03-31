@@ -1,36 +1,6 @@
 import { useState } from 'react'
 import down from '../../img/down.png'
 
-// function CheckboxList({ names }) {
-//     // State to manage the checked status of each checkbox
-//     const [checkedItems, setCheckedItems] = useState({});
-
-//     // Function to handle checkbox state changes
-//     const handleCheckboxChange = (name) => {
-//       setCheckedItems({
-//         ...checkedItems,
-//         [name]: !checkedItems[name]
-//       });
-//     };
-
-//     return (
-//       <div>
-//         {names.map((name, index) => (
-//           <div key={index} className="flex items-center mb-2 relative">
-//             <label htmlFor={`checkbox-${index}`} className="text-sm">{name}</label>
-//             <input
-//               type="checkbox"
-//               id={`checkbox-${index}`}
-//               className="absolute h-5 w-5 right-4"
-//               checked={checkedItems[name] || false}
-//               onChange={() => handleCheckboxChange(name)}
-//             />
-//           </div>
-//         ))}
-//       </div>
-//     );
-//   }
-
 
 
 export default function Filter() {

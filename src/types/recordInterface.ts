@@ -38,7 +38,7 @@ export interface recordInterface {
                 }
             ],
             SetIdentifier?: string,
-            TTL?: number 
+            TTL?: number ,
             TrafficPolicyInstanceId?: string,
             Weight?: number,
         },

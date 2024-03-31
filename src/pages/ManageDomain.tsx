@@ -1,67 +1,46 @@
-// import React, { useState } from 'react'
+
 import '../App.css'
 import NavBar from '../components/ui/NavBar'
 import search from '../img/search.png'
-// import down from '../img/down.png'
-// import download from '../img/download.png'
+
 import upload from '../img/upload.png'
-// import risk from '../img/risk.png'
+
 import Title from '../components/ui/Title'
-// import ExampleDomain from '../components/ExampleDomain'
+
 import SubExample from '../components/ui/SubExample'
 import Filter from '../components/ui/Filter'
-// import { manageDomain } from '../types/manageDomainTypes'
-
-
-// function Manage({name}:manageDomain){
-//   return(
-//     <div className='bg-white mt-2 pt-1 flex justify-between h-[7vh] rounded-sm px-4 '>
-//       <h6 className='font-bold'>{name}</h6>
-//       <h6 className='font-semibold text-blue-600 text-base'>Manage Domain</h6>
-//     </div>
-//   )
-// }
+import { useParams } from 'react-router-dom'
+import { SearchRecord } from '../store/atoms/records'
+import { searchbyRecord } from '../utils/SearchUtil'
+import { useSetRecoilState } from 'recoil'
 
 
 
 function ManageDomain() {
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [isOpenType, setIsOpenType] = useState(false);
-  // const [isOpenRP, setIsOpenRP] = useState(false);
-  // const [isOpenAlias, setIsOpenAlias] = useState(false);
-  // const [isOpenTTL, setIsOpenTTL] = useState(false);
-
-  // const toggleFilter = () => {
-  //   setIsOpen(!isOpen);
-  // };
-
-  // const openType = () => {
-  //   setIsOpenType(!isOpenType);
-  // };
-
-  // const openRP = () => {
-  //   setIsOpenRP(!isOpenRP);
-  // };
-
-  // const openAlias = () => {
-  //   setIsOpenAlias(!isOpenAlias);
-  // };
-
-  // const openTTL = () => {
-  //   setIsOpenTTL(!isOpenTTL);
-  // };
+  
+  const { domainName } = useParams()
+  const setSearch = useSetRecoilState(SearchRecord)
+  // console.log(domainName, "domain name")
 
   return (
 
     <div className='flex h-[100vh]'>
       <NavBar />
       <div className='flex flex-col px-32 w-[80vw] pt-5'>
-        <h4 className='font-bold mb-2'>example1.com</h4>
+        <h4 className='font-bold mb-2'>{domainName}</h4>
         <Title text="Records" />
         <div className='flex w-full mt-2 mb-8'>
           <div className='relative'>
-            <input type="text" placeholder='Search' className='pl-10 rounded-sm w-[44vw] h-[7vh] border-2 border-gray-800 hover:border-gray-100 focus:border focus:border-orange-100' />
+            <input
+              type="text"
+              placeholder='Search'
+              className='pl-10 rounded-sm w-[44vw] h-[7vh] border-2 border-gray-800 hover:border-gray-100 focus:border focus:border-orange-100'
+              onChange={(e) => {
+                setSearch(e.target.value)
+                searchbyRecord()
+              }}
+            />
             <img src={search} alt="" className='w-[3%] absolute top-3 left-2' />
           </div>
           <Filter />
