@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import down from '../../img/down.png'
 
 // function CheckboxList({ names }) {
@@ -36,7 +36,7 @@ import down from '../../img/down.png'
 export default function Filter() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const names = ['Type', 'Routing Policy', 'Alice', 'TTL']; // Sample list of names
+  // const names = ['Type', 'Routing Policy', 'Alice', 'TTL']; // Sample list of names
 
   const toggleFilter = () => {
     setIsOpen(!isOpen);

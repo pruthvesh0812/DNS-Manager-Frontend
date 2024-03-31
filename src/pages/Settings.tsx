@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import  { useState } from 'react'
 import Title from '../components/ui/Title'
 import SettingInfo from '../json/SettingJSON.json'
 import NavBar from '../components/ui/NavBar';
 import AddUser from './AddUser'
-import { userType, userTypeArr } from '../types/settingsType';
+import { userType } from '../types/settingsType';
 import UserListCard from '../components/setting/SettingsComponents';
 
 

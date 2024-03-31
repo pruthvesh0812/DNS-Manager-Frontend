@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import down from '../img/down.png';
-import deleteImg from '../img/delete.png';
-import setting from '../img/setting.png';
-import DomainInfo from '../../json/ManageDomains.json'
-import { recordInterface } from '../../types/recordInterface';
+// import React, { useState } from 'react';
+// import down from '../img/down.png';
+// import deleteImg from '../img/delete.png';
+// import setting from '../img/setting.png';
+// import DomainInfo from '../../json/ManageDomains.json'
+// import { recordInterface } from '../../types/recordInterface';
 
 // function DropdownButton({ label, options, isOpen, toggleDropdown }) {
 //     return (

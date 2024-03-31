@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import '../App.css'
 import NavBar from '../components/ui/NavBar'
 import search from '../img/search.png'
-import down from '../img/down.png'
+// import down from '../img/down.png'
 import Button from '../components/ui/Button'
 import Filter from '../components/ui/Filter'
 import AddDomain from './AddDomain'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import DomainCard from '../components/domain/Domain'
 
 
@@ -46,7 +46,7 @@ import DomainCard from '../components/domain/Domain'
 
 function Home() {
 
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
   const openModal = () => {
