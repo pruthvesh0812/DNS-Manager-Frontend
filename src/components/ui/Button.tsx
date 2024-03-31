@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { buttonType } from '../../types/componentTypes'
 
 export default function Button(props: buttonType) {

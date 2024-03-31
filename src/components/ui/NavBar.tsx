@@ -1,4 +1,4 @@
-// import React from 'react'
+
 // import menu from '../img/burger-bar.png'
 import profile from '../../img/profile.png'
 import { Link } from 'react-router-dom';

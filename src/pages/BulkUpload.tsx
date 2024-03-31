@@ -1,4 +1,4 @@
-import React from 'react'
+
 import NavBar from '../components/ui/NavBar'
 import Title from '../components/ui/Title'
 import csvImg from '../img/csv.jpg'
