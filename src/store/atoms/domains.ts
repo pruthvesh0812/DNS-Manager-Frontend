@@ -14,3 +14,8 @@ export const SearchDomain = atom<string>({
     default:""
 })
 
+export const ManageDomainAtom = atom<string>({
+    key:"manage domain",
+    default:""
+})
+

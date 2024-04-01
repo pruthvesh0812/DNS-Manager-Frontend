@@ -7,19 +7,21 @@ import upload from '../img/upload.png'
 
 import Title from '../components/ui/Title'
 
-import SubExample from '../components/ui/SubExample'
+import SubExample from '../components/ui/RecordList'
 import Filter from '../components/ui/Filter'
-import { useParams } from 'react-router-dom'
+
 import { SearchRecord } from '../store/atoms/records'
 import { searchbyRecord } from '../utils/SearchUtil'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { ManageDomainAtom } from '../store/atoms/domains'
+import RecordList from '../components/ui/RecordList'
 
 
 
 function ManageDomain() {
 
-  
-  const { domainName } = useParams()
+
+  const domainName = useRecoilValue(ManageDomainAtom)
   const setSearch = useSetRecoilState(SearchRecord)
   // console.log(domainName, "domain name")
 
@@ -45,7 +47,7 @@ function ManageDomain() {
           </div>
           <Filter />
         </div>
-        <SubExample />
+        <RecordList />
         <div>
           <div className='flex justify-end mt-5'>
             <button className='bg-orange-500 text-white px-4 py-1 rounded-sm text-sm font-bold'>Delete Selected</button>

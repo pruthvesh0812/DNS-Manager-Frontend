@@ -55,7 +55,7 @@ const oneRecord:recordInterface = {
 }
 
 export const Record = atom({
-    key:"userDomain",
+    key:"user all records",
     default:record
 })
 
@@ -69,4 +69,14 @@ export const singleRecord = atom({
 export const SearchRecord = atom<string>({
     key:"searchR",
     default:""
+})
+
+export const NumRecordsToSend = atom<number>({
+    key:"numberOFRec",
+    default:0
+})
+
+export const PreviousStateAllRecords = atom({
+    key:"previous all record state",
+    default:record
 })
