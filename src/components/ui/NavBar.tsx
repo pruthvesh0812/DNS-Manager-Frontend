@@ -35,6 +35,7 @@ export default function NavBar() {
             <NavList text="Monitor Domain" path='/manage' />
             <NavList text="Bulk Upload" path='/bulk' />
             <NavList text="Settings" path='/setting' />
+            <NavList text="Sign Up" path='/signup-login' />
         </div>
     )
 }

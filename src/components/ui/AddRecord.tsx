@@ -5,58 +5,65 @@ import Button from "./Button";
 import { useState } from "react";
 import down from '../../img/down.png';
 
-const recordToSet: recordInterface = {
+const RecordToSet: recordInterface = {
     record: {
         param: {
-            Action: "",
-            ResourceRecordSet: {
-                Name: "",
-                Type: "",
-                AliasTarget: {
-                    DNSName: "",
-                    EvaluateTargetHealth: false,
-                    HostedZoneId: ""
-                },
-                CidrRoutingConfig: {
-                    CollectionId: "",
-                    LocationName: ""
-                },
-                Failover: "",
-                GeoLocation: {
-                    ContinentCode: "",
-                    CountryCode: "",
-                    SubdivisionCode: ""
-                },
-                GeoProximityLocation: {
-                    AWSRegion: "",
-                    Bias: 0,
-                    Coordinates: {
-                        Latitude: "",
-                        Longitude: ""
-                    },
-                    LocalZoneGroup: ""
-                },
-                HealthCheckId: "",
-                MultiValueAnswer: false,
-                Region: "",
-                ResourceRecords: [
-                    {
-                        Value: ""
-                    }
-                ],
-                SetIdentifier: "",
-                TTL: 0,
-                TrafficPolicyInstanceId: "",
-                Weight: 0,
+            Action:"",
+            ChangeBatch: {
+                Changes:[{
+                    Action: "",
+                ResourceRecordSet: {
+                    Name: "",
+                    Type: "",
+                    // AliasTarget: undefined || {
+                        // DNSName: "",
+                        // EvaluateTargetHealth: false,
+                        // HostedZoneId: ""
+                    // },
+                    // CidrRoutingConfig: undefined || {
+                        // CollectionId: "",
+                        // LocationName: ""
+                    // },
+                    // Failover:undefined ||  "",
+                    // GeoLocation: undefined || {
+                        // ContinentCode: "",
+                        // CountryCode: "",
+                        // SubdivisionCode: ""
+                    // },
+                    // GeoProximityLocation:undefined || {
+                        // AWSRegion: "",
+                        // Bias: 0,
+                        // Coordinates: {
+                            // Latitude: "",
+                            // Longitude: ""
+                        // },
+                        // LocalZoneGroup:undefined || ""
+                    // },
+                    // HealthCheckId: undefined ||"",
+                    // MultiValueAnswer: false,
+                    // Region: undefined || "",
+                    ResourceRecords: [
+                        {
+                            Value: ""
+                        }
+                    ],
+                    // SetIdentifier:undefined || "",
+                    TTL: 0,
+                    // TrafficPolicyInstanceId:undefined || "",
+                    // Weight: undefined || 0,
+                }
+            }],
+            Comment: "dfdsfa"
             },
-            Comment: ""
+
+            HostedZoneId: ""
         },
-        hostedZoneId: ""
     },
     routingPolicy: ""
 }
 
-function DropdownButton({ label, options, isOpen, toggleDropdown, setValue }: { label: string, options: string[], isOpen: boolean, toggleDropdown: () => void, setValue: (value: string) => void }) {
+
+function DropdownButton({ label, options, isOpen, toggleDropdown, setValue, showLabel }: { label: string, options: string[], isOpen: boolean, toggleDropdown: () => void, setValue: (value: string) => void, showLabel: boolean }) {
 
     const [click, setClicked] = useState<boolean>(false)
     const [optionClicked, SetOptionClicked] = useState<string>("")
@@ -67,8 +74,8 @@ function DropdownButton({ label, options, isOpen, toggleDropdown, setValue }: { 
                     onClick={toggleDropdown}
                     className="flex justify-between items-center px-4 mt-2 w-[10vw] h-[5vh] text-sm font-medium text-gray-700 bg-gray-200 border border-black rounded-sm overflow-hidden"
                 >
-                    {
-                        (click == false) ?
+                    {   // XOR
+                        (click === false && showLabel === true) || (click === true && showLabel === false) ?
                             <div className="flex justify-between">
                                 <span className="truncate">{label}</span>
                                 <img src={down} alt="" className='w-[20%] h-1/2 ' />
@@ -82,12 +89,12 @@ function DropdownButton({ label, options, isOpen, toggleDropdown, setValue }: { 
 
                 </button>
                 {isOpen && (
-                    <div className="absolute z-10 right-0 mt-[4vh] top-2 w-[250%] bg-white border border-gray-300 rounded-md shadow-lg">
+                    <div className="absolute z-20 right-0 mt-[4vh] top-2 w-[250%] bg-white border border-gray-300 rounded-md shadow-lg">
                         <ul>
                             {options.map((option, index) => (
                                 <>
                                     <h1 key={index} className="px-2 py-1 cursor-pointer hover:bg-gray-100 text-lg w-[100%]" onClick={() => {
-                                        setClicked(true)
+                                        setClicked(prev => !prev)
                                         SetOptionClicked(option)
                                         toggleDropdown()
                                         setValue(option)
@@ -117,6 +124,9 @@ export default function AddRecord() {
     const SetNumRecordsToSend = useSetRecoilState(NumRecordsToSend)
     const SetAllRecords = useSetRecoilState(Record)
 
+    const [recordToSet, setRecordToSet] = useState<recordInterface>(RecordToSet)
+    const [showLabel, setShowLabel] = useState<boolean>(true)
+
 
     return (
         // <div className="flex  ml-5">
@@ -126,9 +136,34 @@ export default function AddRecord() {
                     <input
                         type="text"
                         className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
-
+                        value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name}
                         placeholder='Enter record name'
-                        onChange={(e) => (recordToSet.record.param.ResourceRecordSet.Name = e.target.value)}
+                        onChange={(e) => {
+                            console.log(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name, "rnsdfa")
+                            console.log(e.target.value, "rn")
+                            setRecordToSet(prev => ({
+                                ...prev, record: {
+                                    ...prev.record,
+                                    param: {
+                                        ...prev.record.param,
+                                        ChangeBatch: {
+                                            ...prev.record.param.ChangeBatch,
+                                            Changes:[{
+                                                ...prev.record.param.ChangeBatch.Changes[0],
+                                                ResourceRecordSet:{
+                                                    ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                    Name:e.target.value
+                                                }
+                                            }
+                                            ]
+                                           
+                                        }
+                                    }
+                                }
+                            }))
+                            // recordToSet.record.param.ResourceRecordSet.Name = e.target.value
+
+                        }}
                     />
                 </div>
 
@@ -150,19 +185,62 @@ export default function AddRecord() {
                             setIsOpenAlias(false)
                         }}
                         setValue={(value) => {
-                            recordToSet.record.param.ResourceRecordSet.Type = value
+                            console.log(value, "val")
+                            setRecordToSet(prev => ({
+                                ...prev, record: {
+                                    ...prev.record,
+                                    param: {
+                                        ...prev.record.param,
+                                       ChangeBatch: {
+                                            ...prev.record.param.ChangeBatch,
+                                            Changes:[{
+                                                ...prev.record.param.ChangeBatch.Changes[0],
+                                                ResourceRecordSet:{
+                                                    ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                    Type:value
+                                                }
+                                            }
+                                            ]
+                                           
+                                        }
+                                    }
+                                }
+                            }))
+
                         }}
+                        showLabel={showLabel}
                     />
                 </div>
                 <div className='col-span-1 mt-2 text-center'>
                     <input
                         type="text"
                         className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
-
+                        value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords ? (recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords[0].Value) : ""}
                         placeholder='Enter record value'
                         onChange={(e) => {
-                            if (recordToSet.record.param.ResourceRecordSet.ResourceRecords) {
-                                recordToSet.record.param.ResourceRecordSet.ResourceRecords[0].Value = e.target.value
+                            if (recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords) {
+                                setRecordToSet(prev => ({
+                                    ...prev, record: {
+                                        ...prev.record,
+                                        param: {
+                                            ...prev.record.param,
+                                           ChangeBatch:{
+                                           ...prev.record.param.ChangeBatch,
+                                            Changes:[{
+                                                ...prev.record.param.ChangeBatch.Changes[0],
+                                                ResourceRecordSet:{
+                                                    ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                    ResourceRecords: prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords ? [{
+                                                        ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords[0],Value:e.target.value
+                                                    }] : undefined
+                                                }
+                                            }
+                                            ]
+                                        }
+                                    }}
+                                }))
+                                // recordToSet.record.param.ResourceRecordSet.ResourceRecords[0].Value = e.target.value
+                                console.log(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords[0].Value)
                             }
                         }}
                     />
@@ -186,7 +264,12 @@ export default function AddRecord() {
                         }}
                         setValue={(value) => {
                             recordToSet.routingPolicy = value
+                            setRecordToSet(prev => ({
+                                ...prev, routingPolicy: value
+                            }))
                         }}
+                        showLabel={showLabel}
+
                     />
                 </div >
                 <div className='col-span-1  text-center '>
@@ -211,29 +294,97 @@ export default function AddRecord() {
                             setIsOpenRP(false)
                             setIsOpenType(false)
                         }}
-                        setValue={(value) =>{ 
-                            if(recordToSet.record.param.ResourceRecordSet.AliasTarget) {
-                                recordToSet.record.param.ResourceRecordSet.AliasTarget.EvaluateTargetHealth = !!value
+                        setValue={(value) => {
+                            if (!!value == true) {
+                                setRecordToSet(prev => ({
+                                    ...prev, record: {
+                                        ...prev.record,
+                                        param: {
+                                            ...prev.record.param,
+                                           ChangeBatch:{
+                                           ...prev.record.param.ChangeBatch,
+                                            Changes:[{
+                                                ...prev.record.param.ChangeBatch.Changes[0],
+                                                ResourceRecordSet:{
+                                                    ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                    AliasTarget:prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget ? {
+                                                        ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget,
+                                                        EvaluateTargetHealth: !!value, DNSName:"something dns" , HostedZoneId:"something id"
+                                                    }: undefined
+,                                                }
+                                            }
+                                            ]
+                                        }}}}))}
+                           
+                                else{
+                                    setRecordToSet(prev => ({
+                                        ...prev, record: {
+                                            ...prev.record,
+                                            param: {
+                                                ...prev.record.param,
+                                               ChangeBatch:{
+                                               ...prev.record.param.ChangeBatch,
+                                                Changes:[{
+                                                    ...prev.record.param.ChangeBatch.Changes[0],
+                                                    ResourceRecordSet:{
+                                                        ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                        AliasTarget: undefined
+    ,                                                }
+                                                }
+                                                ]
+                                            }}}}))
+                                }
+                                
                             }
-                        }}
+                        }
+                        showLabel={showLabel}
+
                     />
                 </div>
                 <div className='col-span-1 mt-2  text-center '>
                     <input
-                        type="text"
+                        type="number"
                         className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
-
+                        value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL}
                         placeholder='Enter TTL'
-                        onChange={(e) => (recordToSet.record.param.ResourceRecordSet.TTL = parseInt(e.target.value))}
+                        onChange={(e) => {
+                            console.log(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name, "rnsdfa")
+                            console.log(e.target.value, "rn")
+                            setRecordToSet(prev => ({
+                                ...prev, record: {
+                                    ...prev.record,
+                                    param: {
+                                        ...prev.record.param,
+                                        ChangeBatch: {
+                                            ...prev.record.param.ChangeBatch,
+                                            Changes:[{
+                                                ...prev.record.param.ChangeBatch.Changes[0],
+                                                ResourceRecordSet:{
+                                                    ...prev.record.param.ChangeBatch.Changes[0].ResourceRecordSet,
+                                                    TTL:parseInt(e.target.value)
+                                                }
+                                            }
+                                            ]
+                                           
+                                        }
+                                    }
+                                }
+                            }))
+                            // recordToSet.record.param.ResourceRecordSet.Name = e.target.value
+
+                        }}
                     />
                 </div>
 
                 <div className="inline-flex mt-2">
                     <Button text="Add" callBack={() => {
-                        SetNumRecordsToSend(prev => prev+1)
+                        SetNumRecordsToSend(prev => prev + 1)
                         setOneRecords(recordToSet)
-                        SetAllRecords(prev => [...prev,recordToSet])
+                        SetAllRecords(prev => [...prev, recordToSet])
                         console.log(recordToSet, "record to set")
+                        setRecordToSet(RecordToSet)
+                        setShowLabel((prev) => !prev)
+
                     }} />
                 </div>
             </div >

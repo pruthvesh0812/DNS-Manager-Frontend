@@ -7,6 +7,7 @@ import DisplayRecords from "./DisplayRecords";
 
 export default function RecordList() {
   const allRecords = useRecoilValue(Record);
+  console.log(allRecords, "allRecords")
   return (
     <div>
       <div className='grid grid-cols-7'>
@@ -37,11 +38,11 @@ export default function RecordList() {
           <h1 className='text-lg text-center mt-8'>No record exists</h1>
         </div>
         :
-        <div>
-
+        <div className="z-10" >
           {
-            allRecords.map(record => {
-              return <div style={{ maxHeight: 'calc(5 * (5vh + 2px))', overflowY: 'auto', overflowX: 'hidden', position: 'relative' }}>
+            allRecords.map((record, idx) => {
+              console.log(record)
+              return <div key={idx} >
                 <DisplayRecords record={record} isEdit={false} />
               </div>
             })

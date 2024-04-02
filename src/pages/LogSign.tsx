@@ -6,26 +6,27 @@ import { useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil"
 import { loginSignUp } from "../store/atoms/loginSIgnup"
 import { useRecoilValue } from "recoil"
+import { BASE_URL } from "../App"
 
-export default function loginSignup({ label }: { label: string }) {
-    const [labell, setLabel] = useState("")
+
+
+export default function LoginSignup() {
+    const [labell, setLabel] = useState("signup")
     const navigate = useNavigate()
     const setUserDetails = useSetRecoilState(loginSignUp);
     const userDetails = useRecoilValue(loginSignUp)
-    useEffect(() => {
-        setLabel(label)
-    }, [])
+
 
     return (
-        <div className="px-[20%] my-[20%] bg-black flex justify-center">
-            <div className="grid grid-cols-1">
+        <div className="  bg-black flex justify-center h-[100vh]">
+            <div className="flex flex-col ">
                 <input
                     name="email"
                     placeholder="Enter your email"
                     onChange={(e) => {
                         setUserDetails((prev) => ({ ...prev, email: e.target.value }))
                     }}
-                    className="h-8 w-1/2 rounded text-slate-300 bg-transparent my-8"
+                    className="h-8 w-[150%]  rounded text-slate-300 bg-transparent my-3 border border-slate-400"
                 />
                 <input
                     name="password"
@@ -33,34 +34,43 @@ export default function loginSignup({ label }: { label: string }) {
                     onChange={(e) => {
                         setUserDetails((prev) => ({ ...prev, password: e.target.value }))
                     }}
-                    className="h-8 w-1/2 rounded text-slate-300 bg-transparent my-8"
+                    className="h-8 w-[150%]  rounded text-slate-300 bg-transparent my-3 border border-slate-400"
                 />
                 <Button text={labell} callBack={async () => {
-                    if(labell == "signup"){
-                       const res = await axios.post("http://localhost:5001/api/auth/signup",userDetails)
-                        if(res){
-                            console.log(res,"res")
+                    if (labell == "signup") {
+                        const res = await axios.post(`${BASE_URL}/api/auth/signup`, userDetails)
+                        if (res) {
+                            console.log(res, "res")
                             navigate("/")
+                            localStorage.setItem("token",res.data.token)
                         }
-                        
+
                     }
-                    else{
-                        const res = await axios.post("http://localhost:5001/api/auth/login",userDetails)
-                        if(res){
-                            console.log(res,"res")
-                            navigate("/")
+                    else {
+                        try {
+                            const res = await axios.post(`${BASE_URL}/api/auth/login`, userDetails)
+                            if (res) {
+                                console.log(res, "res")
+                                navigate("/")
+                                localStorage.setItem("token",res.data.token)
+
+                            }
                         }
+                        catch (err) {
+                            console.log(err, "error occured")
+                        }
+
                     }
                 }} />
                 {
                     (labell == "signup") ?
-                        <div className="flex justify-center">
+                        <div className="flex justify-center text-slate-300">
                             <h1>Already Have an Account?</h1>
                             <button className="bg-transparent font-semibold text-slate-400" onClick={() => {
                                 setLabel("login")
                             }}>Login in</button>
                         </div> :
-                        <div>
+                        <div className="flex justify-center text-slate-300">
                             <h1>New User?</h1>
                             <button className="bg-transparent font-semibold text-slate-400" onClick={() => {
                                 setLabel("signup")

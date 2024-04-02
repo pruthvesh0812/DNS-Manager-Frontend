@@ -5,18 +5,26 @@ import Settings from './pages/Settings'
 import BulkUpload from './pages/BulkUpload'
 import ManageDomain from './pages/ManageDomain'
 import { RecoilRoot } from 'recoil'
+
+export const BASE_URL = import.meta.env.VITE_APP_BASE_URL
+import LoginSignup from './pages/LogSign'
+
+
 export default function App() {
-  const {domainName } = useParams()
+  console.log(BASE_URL, "bu")
+  const { domainName } = useParams()
   return (
     <div>
       <RecoilRoot>
-      <Routes>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/manage" element={<ManageDomain />} />
           {/* <Route path={`/manage:domainName`} element={<ManageDomain />} /> */}
           <Route path="/setting" element={<Settings />} />
           <Route path="/bulk" element={<BulkUpload />} />
-      </Routes>
+          <Route path="/signup-login" element={<LoginSignup />} />
+
+        </Routes>
       </RecoilRoot>
     </div>
   )
