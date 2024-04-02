@@ -134,7 +134,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
 
     try {
 
-      const response = await axios.post(`${BASE_URL}/api/domain/create`, { domain }, {
+      const response = await axios.post(`http://13.233.103.196:5012/api/domain/create`, { domain }, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 
 
@@ -184,7 +184,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
         else {
 
           console.log(newRecord, domain, "sdfasdf322")
-          const response = await axios.post(`${BASE_URL}/api/record/create`, {newRecord,hostedZoneId:hzid}, {
+          const response = await axios.post(`http://13.233.103.196:5012/api/record/create`, {newRecord,hostedZoneId:hzid}, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${localStorage.getItem("token")}`
