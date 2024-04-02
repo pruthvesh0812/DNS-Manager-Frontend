@@ -1,18 +1,18 @@
 
 import '../App.css'
 import NavBar from '../components/ui/NavBar'
-import search from '../img/search.png'
+
 import risk from '../img/risk.png'
 import upload from '../img/upload.png'
 
 import Title from '../components/ui/Title'
 
-import SubExample from '../components/ui/RecordList'
+
 import Filter from '../components/ui/Filter'
 
-import { SearchRecord } from '../store/atoms/records'
+
 import SearchUtil from '../utils/SearchUtil.tsx'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { ManageDomainAtom } from '../store/atoms/domains'
 import RecordList from '../components/ui/RecordList'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ function ManageDomain() {
 
 
   const domainName = useRecoilValue(ManageDomainAtom)
-  const setSearch = useSetRecoilState(SearchRecord)
+
   // console.log(domainName, "domain name")
 
   return (

@@ -1,6 +1,6 @@
 
 import Home from './pages/Home'
-import { Route, Routes, useParams } from 'react-router-dom'
+import { Route, Routes} from 'react-router-dom'
 import Settings from './pages/Settings'
 import BulkUpload from './pages/BulkUpload'
 import ManageDomain from './pages/ManageDomain'
