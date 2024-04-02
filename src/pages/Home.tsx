@@ -15,7 +15,7 @@ import axios from 'axios'
 
 import { useNavigate } from 'react-router-dom'
 import SearchUtil from '../utils/SearchUtil'
-import { BASE_URL } from '../App'
+// import { BASE_URL } from '../App'
 
 
 
@@ -31,7 +31,7 @@ function Home() {
 
   const getUserDomains = async () => {
     try {
-      const responseDomains = await axios.get(`${BASE_URL}/api/domain/hostedZones`, {
+      const responseDomains = await axios.get(`http://13.233.103.196:5012/api/domain/hostedZones`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 
       })

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { NumRecordsToSend, PreviousStateAllRecords, Record, singleRecord } from '../store/atoms/records';
 import {  useRecoilValue, useSetRecoilState } from 'recoil';
 import { Domain, hostedZoneIdDomain } from '../store/atoms/domains';
-import { BASE_URL } from '../App';
+// import { BASE_URL } from '../App';
 import { recordInterface } from '../types/recordInterface';
 
 type AddDomainType = {

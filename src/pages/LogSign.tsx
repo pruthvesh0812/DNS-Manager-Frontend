@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil"
 import { loginSignUp } from "../store/atoms/loginSIgnup"
 import { useRecoilValue } from "recoil"
-import { BASE_URL } from "../App"
+// import { BASE_URL } from "../App"
 
 
 
