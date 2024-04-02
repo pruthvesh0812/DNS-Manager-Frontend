@@ -3,7 +3,7 @@ import Title from '../components/ui/Title';
 import RecordList from '../components/ui/RecordList';
 import axios from 'axios';
 import { NumRecordsToSend, PreviousStateAllRecords, Record, singleRecord } from '../store/atoms/records';
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import {  useRecoilValue, useSetRecoilState } from 'recoil';
 import { Domain, hostedZoneIdDomain } from '../store/atoms/domains';
 import { BASE_URL } from '../App';
 import { recordInterface } from '../types/recordInterface';
@@ -131,7 +131,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   console.log(numRecordsToSend)
 
   const createDomain = async () => {
-    let hostedZoneID = ""
+
     try {
 
       const response = await axios.post(`${BASE_URL}/api/domain/create`, { domain }, {

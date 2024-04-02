@@ -12,7 +12,7 @@ import LoginSignup from './pages/LogSign'
 
 export default function App() {
   console.log(BASE_URL, "bu")
-  const { domainName } = useParams()
+ 
   return (
     <div>
       <RecoilRoot>

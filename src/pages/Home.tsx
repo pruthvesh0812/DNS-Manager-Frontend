@@ -8,11 +8,11 @@ import Filter from '../components/ui/Filter'
 import AddDomain from './AddDomain'
 
 import DomainCard from '../components/domain/Domain'
-import { Domain, SearchDomain } from '../store/atoms/domains'
+import { Domain } from '../store/atoms/domains'
 import { useSetRecoilState } from 'recoil'
 import { useRecoilValue } from 'recoil'
 import axios from 'axios'
-import { domainType } from '../types/domainTypes'
+
 import { useNavigate } from 'react-router-dom'
 import SearchUtil from '../utils/SearchUtil'
 import { BASE_URL } from '../App'
@@ -62,7 +62,7 @@ function Home() {
   }, [])
 
   const navigate = useNavigate()
-  const setSearch = useSetRecoilState(SearchDomain)
+ 
 
 
   return (

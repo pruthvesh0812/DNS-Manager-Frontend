@@ -32,7 +32,7 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
         
         if (allRecords.length != 0) {
             const filteredRecords = allRecords.filter(eachRecord => {
-                const str = eachRecord.record.param.ResourceRecordSet.Name
+                const str = eachRecord.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name
                 return str.includes(searchPattern)
             })
             console.log(filteredRecords,"fl")
