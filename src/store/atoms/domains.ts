@@ -15,9 +15,9 @@ export const SearchDomain = atom<string>({
     default:""
 })
 
-export const ManageDomainAtom = atom<string>({
+export const ManageDomainAtom = atom<{name:string,hostedZoneId:string}>({
     key:"manage domain",
-    default:""
+    default:{name:"",hostedZoneId:""}
 })
 
 export const hostedZoneIdDomain = atom<hostedZoneIdDomainType>({

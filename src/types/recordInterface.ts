@@ -1,7 +1,8 @@
 export interface recordInterface {
     record: {
         param: {
-            Action: string
+            Action: string,
+            
             ChangeBatch: {
                 Changes: [{
                     Action: string,
@@ -35,11 +36,11 @@ export interface recordInterface {
                         HealthCheckId?: string,
                         MultiValueAnswer?: boolean,
                         Region?: string,
-                        ResourceRecords?: [
+                        ResourceRecords?: 
                             {
                                 Value: string
-                            }
-                        ],
+                            }[]
+                        ,
                         SetIdentifier?: string,
                         TTL?: number,
                         TrafficPolicyInstanceId?: string,

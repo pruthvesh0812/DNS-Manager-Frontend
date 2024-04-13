@@ -43,7 +43,7 @@ export default function DomainCard({ name,hostedZoneId }: {name:string,hostedZon
     <div className='grid grid-cols-3'>
        <div className='bg-white mt-2 pt-2 flex justify-between h-[7vh] rounded-sm px-4 col-span-2 '>
         <h6 className='font-bold text-xl'>{name}</h6>
-        <Link to="/manage" ><h6 className='font-semibold text-blue-600  text-xl' onClick={()=>{setManageDomain(name)}}>Manage Domain</h6></Link>
+        <Link to="/manage" ><h6 className='font-semibold text-blue-600  text-xl' onClick={()=>{setManageDomain({name,hostedZoneId})}}>Manage Domain</h6></Link>
        </div>
         <div className='col-span-1 w-10 mt-2 mx-3 '>
           {

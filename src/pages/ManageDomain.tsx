@@ -12,26 +12,122 @@ import Filter from '../components/ui/Filter'
 
 
 import SearchUtil from '../utils/SearchUtil.tsx'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { ManageDomainAtom } from '../store/atoms/domains'
 import RecordList from '../components/ui/RecordList'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { ENV } from '../App.tsx'
+import { useMemo, useState } from 'react'
+import { recordInterface } from '../types/recordInterface.ts'
+import { Record, singleRecord } from '../store/atoms/records.ts'
 
+type value = {
+  Value:string
+}
 
+export type recordResType = {
+  Name:string
+  ResourceRecords:value[],
+  TTL:number
+  Type:string
+}
+
+const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
+  
+  const domainName = domain.substring(0,domain.length-1);
+  console.log("asdfjasdf",domain,"sdf",domainName)
+  return new Promise((resolve,reject)=>{
+    axios.get(`${ENV.VITE_APP_BASE_URL}/api/record?domain=${domainName}`,{
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res=>{
+      console.log(res.data,"record for domain:",domain)
+      resolve(res.data.records)
+    }).catch((err) =>{
+      console.log(err,"error while fetching records")
+      reject(err)
+    })
+  })
+ 
+}
+
+const handleRecordCache = (recordCache:recordInterface[],domainName:string, setRecordCache:React.Dispatch<React.SetStateAction<recordInterface[]>>)=>{
+ 
+
+}
 
 function ManageDomain() {
+  const [recordCache, setRecordCache] = useState<recordResType[]>([])
+  const setAllRecords = useSetRecoilState(Record)
+  const newRecord = useRecoilValue(singleRecord)
+  const domainObj = useRecoilValue(ManageDomainAtom)
+  const [prevCacheLen,setPrevCacheLen]= useState(recordCache.length)
+  console.log(domainObj.name,"domanName")
+  
 
+  useMemo(()=>{
+    // recently logged in and opening manage domain first time - cache will empty
+    if( recordCache.length == 0 && domainObj.name != undefined){
+      console.log("sdfs")
+      getRecordsForDomain(domainObj.name).then((res)=>{
+        console.log(res,"responsekjalsdf")
+        setRecordCache(res)
+      })
+    }
+    
+    
+  },[newRecord])
+  
+    if(prevCacheLen != recordCache.length){
+      const modifiedRecord:recordInterface[] = recordCache.map(eachRecord =>(
+         {
+          record: {
+            param: {
+                Action: "",
+                
+                ChangeBatch: {
+                    Changes: [{
+                        Action: "",
+                        ResourceRecordSet: {
+                            Name: eachRecord.Name,
+                            Type: eachRecord.Type,
+                           
+                           
+                            ResourceRecords:eachRecord.ResourceRecords,
+                           
+                            TTL: eachRecord.TTL,
+                         
+                        }
+                    }],
+               
+                },
+    
+                HostedZoneId: domainObj.hostedZoneId
+            },
+        },
+        routingPolicy: "Simple Routing"
+      }))
+      console.log("this is modifiedRecord",modifiedRecord)
+      setAllRecords(prev => [...prev,...modifiedRecord])
+    }
+    // useMemo(()=>{
+    //   // console.log(domainObj.name, "domain name")
+    // console.log(recordCache,"record cache")
+    // if(recordCache.length != 0){
+    // }
+    // },[recordCache])
 
-  const domainName = useRecoilValue(ManageDomainAtom)
-
-  // console.log(domainName, "domain name")
+  
+ 
 
   return (
 
     <div className='flex h-[100vh]'>
       <NavBar />
       <div className='flex flex-col px-32 w-[80vw] py-5'>
-        <h4 className='font-bold mb-2'>{domainName}</h4>
+        <h4 className='font-bold mb-2'>{domainObj.name}</h4>
         <Title text="Records" />
         <div className='flex w-full mt-2 mb-8'>
           <SearchUtil searchType='record' />
