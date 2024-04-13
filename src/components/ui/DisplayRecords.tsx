@@ -115,7 +115,7 @@ function DropdownButton({ label, options, isOpen, toggleDropdown, setValue }: { 
 export const TypeOptions = ["A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV", "TXT", "DNSSEC"
 ]
 
-export const PolicyOptions = ["Simple Routing", "Weighted Routing", "Latency-Based Routing", "Failover Routing", "Geolocation Routing", "Multi-Value Routing", "Geoproximity Routing"]
+export const PolicyOptions = ["Simple Routing", "Weighted Routing", "Latency Routing", "Failover Routing", "Geolocation Routing", "Multi-Value Routing", "Geoproximity Routing"]
 
 export const AliasOptions = ["true", "false"]
 

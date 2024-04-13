@@ -14,9 +14,12 @@ import { useRecoilValue } from 'recoil'
 import axios from 'axios'
 
 import { useNavigate } from 'react-router-dom'
-import SearchUtil from '../utils/SearchUtil'
+import SearchUtil from '../utils/SearchUtil';
+import Spinner from '../components/ui/Spinner'
+import { SpinnerState } from '../store/atoms/Spinner'
+import { ReloadPageState } from '../store/atoms/ReloadPage'
 // import { BASE_URL } from '../App'
-
+const ENV = import.meta.env
 
 
 
@@ -27,11 +30,16 @@ function Home() {
   const [isModal, setIsModal] = useState(false);
   const userDomains = useRecoilValue(Domain);
   const setUserDomains = useSetRecoilState(Domain)
+  const spinner = useRecoilValue(SpinnerState)
+  const setSpinner = useSetRecoilState(SpinnerState)
+  const reload = useRecoilValue(ReloadPageState)
+  // const [spinner,setSpinner] = useState(false)
 
 
   const getUserDomains = async () => {
+    setSpinner(true)
     try {
-      const responseDomains = await axios.get(`http://13.233.103.196:5012/api/domain/hostedZones`, {
+      const responseDomains = await axios.get(`${ENV.VITE_APP_BASE_URL}/api/domain/hostedZones`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 
       })
@@ -44,8 +52,9 @@ function Home() {
           Id:string,
           ResourceRecordSetCount:number
       }[] = responseDomains.data.userHostedZones
-        const userExtractDomainName =  userHostedZones.map(ele => { return {Name:ele.Name} })
+        const userExtractDomainName =  userHostedZones.map(ele => { return {Name:ele.Name,hostedZoneId:ele.Id} })
         setUserDomains(userExtractDomainName)
+        setSpinner(false)
       }
       else {
         setUserDomains([])
@@ -53,6 +62,8 @@ function Home() {
     }
     catch (err) {
       console.log(err, "error while fetching domains")
+      setSpinner(false)
+
     }
   }
 
@@ -68,6 +79,13 @@ function Home() {
   return (
     <div className='flex bg-black h-[100vh]'>
       <NavBar />
+      {
+        (spinner && (
+          <div>
+            <Spinner />
+          </div>
+        ))
+      }
       <div className='px-32 w-[80vw] pt-20'>
         <div className='flex justify-end'>
           <Button text="CSV Upload" callBack={() => {
@@ -92,14 +110,14 @@ function Home() {
 
         {(userDomains.length == 0) ?
           <div>
-            <h1 className='text-lg text-center mt-8'>No Domains Created</h1>
+            <h1 className='text-lg text-center mt-8 text-slate-200'>No Domains Created</h1>
           </div>
           :
           <div>
             {
               userDomains.map(domain => {
                 return <div>
-                  <DomainCard name={domain.Name} />
+                  <DomainCard name={domain.Name} hostedZoneId={domain.hostedZoneId} />
                 </div>
               })
             }

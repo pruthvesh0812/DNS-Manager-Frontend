@@ -1,6 +1,7 @@
 export type domainType = {
     // CallerReference: string
-    Name: string
+    Name: string,
+    hostedZoneId:string
     // Config:{PrivateZone:boolean},
     // Id:string,
     // ResourceRecordSetCount:number

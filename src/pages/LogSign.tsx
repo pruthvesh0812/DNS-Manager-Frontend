@@ -7,6 +7,7 @@ import { useSetRecoilState } from "recoil"
 import { loginSignUp } from "../store/atoms/loginSIgnup"
 import { useRecoilValue } from "recoil"
 // import { BASE_URL } from "../App"
+const ENV = import.meta.env
 
 
 
@@ -38,7 +39,7 @@ export default function LoginSignup() {
                 />
                 <Button text={labell} callBack={async () => {
                     if (labell == "signup") {
-                        const res = await axios.post(`http://13.233.103.196:5012/api/auth/signup`, userDetails)
+                        const res = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/auth/signup`, userDetails)
                         if (res) {
                             console.log(res, "res")
                             navigate("/")
@@ -48,7 +49,7 @@ export default function LoginSignup() {
                     }
                     else {
                         try {
-                            const res = await axios.post(`http://13.233.103.196:5012/api/auth/login`, userDetails)
+                            const res = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/auth/login`, userDetails)
                             if (res) {
                                 console.log(res, "res")
                                 navigate("/")

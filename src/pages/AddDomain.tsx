@@ -7,6 +7,8 @@ import {  useRecoilValue, useSetRecoilState } from 'recoil';
 import { Domain, hostedZoneIdDomain } from '../store/atoms/domains';
 // import { BASE_URL } from '../App';
 import { recordInterface } from '../types/recordInterface';
+import { SpinnerState } from '../store/atoms/Spinner';
+const ENV = import.meta.env
 
 type AddDomainType = {
   isOpen: boolean,
@@ -86,6 +88,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   const SetAllRecords = useSetRecoilState(Record)
   const allRecords = useRecoilValue(Record)
   const setHostZoneId = useSetRecoilState(hostedZoneIdDomain)
+  const setSpinner = useSetRecoilState(SpinnerState)
 
   const handleCreateDomain = async () => {
 
@@ -93,19 +96,22 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   }
   
   const handleCreateRecord = async () => {
-    if(allDomains.includes({Name:domain})){
+    if(allDomains.some(eachDomain => eachDomain.Name.includes(domain))){
 
     }else{
+      setSpinner(true)
       console.log("hzid")
     const hzid  = await createDomain()
-    
+    let newRecordCopy:recordInterface = JSON.parse(JSON.stringify(newRecord));
+    newRecordCopy.record.param.HostedZoneId = hzid as string;
+
     console.log("domain created");
-    await createRecord(hzid as string);
+    await createRecord(hzid as string,newRecordCopy);
 
 
     console.log("sdalsdfadfk323")
 
-
+    setSpinner(false)
     onClose();
     }
     
@@ -134,7 +140,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
 
     try {
 
-      const response = await axios.post(`http://13.233.103.196:5012/api/domain/create`, { domain }, {
+      const response = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/domain/create`, { domain }, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 
 
@@ -151,7 +157,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
         })
 
 
-        SetAllDomains(prev => [...prev, { Name: domain }])
+        SetAllDomains(prev => [...prev, { Name: domain,hostedZoneId:data.hostedZoneId }])
         setSingleRecord(prev => ({
           ...prev, record: {
             ...prev.record,param:{
@@ -171,7 +177,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
 
   }
 
-  const createRecord = async (hzid:string) => {
+  const createRecord = async (hzid:string,newRecordCopy:recordInterface) => {
     try {
       // if new record created
       if (sendRecord == true) {
@@ -183,8 +189,8 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
         }
         else {
 
-          console.log(newRecord, domain, "sdfasdf322")
-          const response = await axios.post(`http://13.233.103.196:5012/api/record/create`, {newRecord,hostedZoneId:hzid}, {
+          console.log(newRecordCopy, domain, "sdfasdf322")
+          const response = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/record/create`, {newRecordCopy,hostedZoneId:hzid}, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -197,7 +203,8 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
             setPreviousAllRecordstate(allRecords)
             SetNumRecordsToSend(0)
             setDomain("")
-            setSingleRecord(RecordToSet)
+            setSingleRecord(newRecordCopy)
+            SetAllRecords(prev => [...prev,newRecordCopy])
           }
           else {
             // allRecords are already set while adding them
@@ -217,7 +224,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed z-50 inset-0 overflow-y-auto w-full">
+        <div className="fixed z-40 inset-0 overflow-y-auto w-full">
           <div className="flex items-center justify-center h-[80vh]">
             <div className="fixed inset-0 transition-opacity">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
