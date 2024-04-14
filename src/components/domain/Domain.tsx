@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { domainCardType } from '../../types/manageDomainTypes';
+import { Link } from 'react-router-dom';
+
 import { useSetRecoilState } from 'recoil';
 import { ManageDomainAtom } from '../../store/atoms/domains';
 import Delete from '../../img/delete.png';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import DeleteModal from '../ui/DeleteModal';
 import axios from 'axios';
 import { ENV } from '../../App';
-import Spinner from '../ui/Spinner';
+
 import { ReloadPageState } from '../../store/atoms/ReloadPage';
 
 
