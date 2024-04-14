@@ -3,6 +3,7 @@ import down from '../../img/down.png'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { Domain } from '../../store/atoms/domains'
 import { Record } from '../../store/atoms/records'
+import { recordInterface } from '../../types/recordInterface'
 
 const filterList = [
   {
@@ -24,9 +25,9 @@ type filterList = {
   filter:string[]
 }
 
-const FilterList = ({filterList}:{filterList:filterList[]})=>{
+const FilterList = ({filterList,allRecords}:{filterList:filterList[],allRecords:recordInterface[]})=>{
   // const [filter,setFilter] = useState<{filterType:string,filter:string}>({filterType:"",filter:""})
-  const allRecords = useRecoilValue(Record)
+  
   const allDomains = useRecoilValue(Domain)
   const setAllDomains = useSetRecoilState(Domain)
 
@@ -84,7 +85,7 @@ const FilterList = ({filterList}:{filterList:filterList[]})=>{
   )
 }
 
-export default function Filter() {
+export default function Filter({allRecords}:{allRecords:recordInterface[]}) {
   const [isOpen, setIsOpen] = useState(false);
 
   // const names = ['Type', 'Routing Policy', 'Alice', 'TTL']; // Sample list of names
@@ -109,7 +110,7 @@ export default function Filter() {
             <div className="px-2 py-2 space-y-1">
               <div className="p-4 pb-0">
                 {/* <CheckboxList names={names} /> */}
-                <FilterList filterList={filterList}/>
+                <FilterList filterList={filterList} allRecords={allRecords}/>
               </div>
               <div className='flex gap-x-6  '>
                 <label className="text-sm pl-4">TTL</label>

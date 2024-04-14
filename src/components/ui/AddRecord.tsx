@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { NumRecordsToSend, Record, singleRecord } from "../../store/atoms/records";
+import { NumRecordsToSend, Record, multipleRecord, singleRecord } from "../../store/atoms/records";
 import { recordInterface } from "../../types/recordInterface";
 import Button from "./Button";
 import { useState } from "react";
@@ -119,6 +119,7 @@ export const AliasOptions = ["true", "false"]
 
 export default function AddRecord() {
     const setOneRecords = useSetRecoilState(singleRecord)
+    const setMultipleRecords = useSetRecoilState(multipleRecord)
     const [isOpenType, setIsOpenType] = useState<boolean>(false)
     const [isOpenRP, setIsOpenRP] = useState<boolean>(false)
     const [isOpenAlias, setIsOpenAlias] = useState<boolean>(false)
@@ -381,6 +382,7 @@ export default function AddRecord() {
                     <Button text="Add" callBack={() => {
                         SetNumRecordsToSend(prev => prev + 1)
                         setOneRecords(recordToSet)
+                        setMultipleRecords(multiple =>[...multiple,recordToSet])
                         SetAllRecords(prev => [...prev, recordToSet])
                         console.log(recordToSet, "record to set")
                         setRecordToSet(RecordToSet)

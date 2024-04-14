@@ -4,7 +4,7 @@ export interface recordInterface {
             Action: string,
             
             ChangeBatch: {
-                Changes: [{
+                Changes: {
                     Action: string,
                     ResourceRecordSet: {
                         Name: string,
@@ -46,7 +46,7 @@ export interface recordInterface {
                         TrafficPolicyInstanceId?: string,
                         Weight?: number,
                     }
-                }]
+                }[],
                 Comment?: string,
             },
 

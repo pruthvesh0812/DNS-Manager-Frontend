@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Title from '../components/ui/Title';
 import RecordList from '../components/ui/RecordList';
 import axios from 'axios';
-import { NumRecordsToSend, PreviousStateAllRecords, Record, singleRecord } from '../store/atoms/records';
+import { NumRecordsToSend, PreviousStateAllRecords, Record, multipleRecord, singleRecord } from '../store/atoms/records';
 import {  useRecoilValue, useSetRecoilState } from 'recoil';
 import { Domain, hostedZoneIdDomain } from '../store/atoms/domains';
 // import { BASE_URL } from '../App';
@@ -89,6 +89,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   const allRecords = useRecoilValue(Record)
   const setHostZoneId = useSetRecoilState(hostedZoneIdDomain)
   const setSpinner = useSetRecoilState(SpinnerState)
+  const multipleRecords = useRecoilValue(multipleRecord)
 
   const handleCreateDomain = async () => {
 
@@ -184,7 +185,40 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
         console.log("in send", sendRecord, numRecordsToSend)
         if (numRecordsToSend > 1) {
           SetNumRecordsToSend(0)
-          console.log("many")
+          
+          console.log("many,",multipleRecords)
+          
+           const multipleRecordsMod = multipleRecords.map(eachRecord => {
+            const newRecord = JSON.parse(JSON.stringify(eachRecord)) // if we dont do this cloning , error is thrown saying cannot modify readonly object - because multipleRecords is a state variable
+            newRecord.record.param.ChangeBatch.Changes[0].Action = "CREATE"
+            return newRecord
+           })
+
+          //create a single record to send
+          const Changes= multipleRecordsMod.map(eachRecord=>
+           { return (eachRecord.record.param.ChangeBatch.Changes[0])}
+          )
+          const recordToSend:recordInterface = JSON.parse(JSON.stringify(multipleRecords[0]))
+          recordToSend.record.param.HostedZoneId = hzid
+          recordToSend.record.param.ChangeBatch.Changes = Changes
+          
+          console.log(recordToSend,"record to send multiple") 
+          const response = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/record/bulk/create`, {record:recordToSend.record,routingPolicy:recordToSend.routingPolicy}, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          })
+          if(response){
+            console.log(response,"multiple records set")
+            setPreviousAllRecordstate(allRecords)
+        
+            setDomain("")
+            // SetAllRecords(prev => [...prev,...multipleRecords])
+
+          }else{
+            SetAllRecords(previousAllRecordstate) 
+          }
           // multiple remaining !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
         else {

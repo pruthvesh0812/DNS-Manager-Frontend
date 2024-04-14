@@ -1,5 +1,5 @@
 import { Domain } from "../store/atoms/domains";
-import { Record} from "../store/atoms/records";
+import { Record, RecordCache} from "../store/atoms/records";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 // import { recordInterface } from "../types/recordInterface";
 import search from "../img/search.png"
@@ -23,16 +23,16 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
 
 
 
-    const allRecords = useRecoilValue(Record)
+    const allRecords = useRecoilValue(RecordCache)
     const allDomains = useRecoilValue(Domain)
-    const setAllRecords = useSetRecoilState(Record)
+    const setAllRecords = useSetRecoilState(RecordCache)
     const setAllDomains = useSetRecoilState(Domain)
 
     const searchbyRecord = (searchPattern: string) => {
         
         if (allRecords.length != 0) {
             const filteredRecords = allRecords.filter(eachRecord => {
-                const str = eachRecord.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name
+                const str = eachRecord.Name
                 return str.includes(searchPattern)
             })
             console.log(filteredRecords,"fl")

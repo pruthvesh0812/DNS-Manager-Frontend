@@ -14,24 +14,16 @@ import Filter from '../components/ui/Filter'
 import SearchUtil from '../utils/SearchUtil.tsx'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { ManageDomainAtom } from '../store/atoms/domains'
-import RecordList from '../components/ui/RecordList'
+import NewRecordList from '../components/ui/NewRecordList'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { ENV } from '../App.tsx'
 import { useMemo, useState } from 'react'
 import { recordInterface } from '../types/recordInterface.ts'
-import { Record, singleRecord } from '../store/atoms/records.ts'
+import { Record, RecordCache, singleRecord } from '../store/atoms/records.ts'
+import { recordResType } from '../types/recordType.ts'
 
-type value = {
-  Value:string
-}
 
-export type recordResType = {
-  Name:string
-  ResourceRecords:value[],
-  TTL:number
-  Type:string
-}
 
 const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
   
@@ -59,18 +51,22 @@ const handleRecordCache = (recordCache:recordInterface[],domainName:string, setR
 }
 
 function ManageDomain() {
-  const [recordCache, setRecordCache] = useState<recordResType[]>([])
+ 
+  const recordCache = useRecoilValue(RecordCache)
+  const setRecordCache = useSetRecoilState(RecordCache)
   const setAllRecords = useSetRecoilState(Record)
   const newRecord = useRecoilValue(singleRecord)
   const domainObj = useRecoilValue(ManageDomainAtom)
   const [prevCacheLen,setPrevCacheLen]= useState(recordCache.length)
-  console.log(domainObj.name,"domanName")
+  console.log(domainObj.name,"do manName")
   
 
   useMemo(()=>{
     // recently logged in and opening manage domain first time - cache will empty
+    // everytime I hit the Link to="/manage" a new component will get mounted - and it will init recordCache to []
     if( recordCache.length == 0 && domainObj.name != undefined){
-      console.log("sdfs")
+      setAllRecords([])
+      console.log("sdfs",recordCache.length)
       getRecordsForDomain(domainObj.name).then((res)=>{
         console.log(res,"responsekjalsdf")
         setRecordCache(res)
@@ -79,9 +75,9 @@ function ManageDomain() {
     
     
   },[newRecord])
-  
+    let modifiedRecord:recordInterface[]=[]
     if(prevCacheLen != recordCache.length){
-      const modifiedRecord:recordInterface[] = recordCache.map(eachRecord =>(
+       modifiedRecord= recordCache.map(eachRecord =>(
          {
           record: {
             param: {
@@ -111,6 +107,7 @@ function ManageDomain() {
       }))
       console.log("this is modifiedRecord",modifiedRecord)
       setAllRecords(prev => [...prev,...modifiedRecord])
+      setPrevCacheLen(recordCache.length)
     }
     // useMemo(()=>{
     //   // console.log(domainObj.name, "domain name")
@@ -130,11 +127,11 @@ function ManageDomain() {
         <h4 className='font-bold mb-2'>{domainObj.name}</h4>
         <Title text="Records" />
         <div className='flex w-full mt-2 mb-8'>
-          <SearchUtil searchType='record' />
-          <Filter />
+          <SearchUtil searchType='record' /> 
+          <Filter allRecords={modifiedRecord}/>
         </div>
 
-        <RecordList />
+        <NewRecordList hostedZoneId={domainObj.hostedZoneId}/>
         <div className='mt-8 '>
           {/* <div className='flex justify-end mt-5'>
             <button className='bg-orange-500 text-white px-4 py-1 rounded-sm text-sm font-bold'>Delete Selected</button>

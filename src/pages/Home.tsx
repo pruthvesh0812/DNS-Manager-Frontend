@@ -18,6 +18,7 @@ import SearchUtil from '../utils/SearchUtil';
 import Spinner from '../components/ui/Spinner'
 import { SpinnerState } from '../store/atoms/Spinner'
 import { ReloadPageState } from '../store/atoms/ReloadPage'
+import { Record } from '../store/atoms/records'
 // import { BASE_URL } from '../App'
 const ENV = import.meta.env
 
@@ -33,6 +34,7 @@ function Home() {
   const spinner = useRecoilValue(SpinnerState)
   const setSpinner = useSetRecoilState(SpinnerState)
   const reload = useRecoilValue(ReloadPageState)
+  const allRecords = useRecoilValue(Record)
   // const [spinner,setSpinner] = useState(false)
 
 
@@ -105,7 +107,7 @@ function Home() {
         </div>
         <div className='flex w-full mt-2 mb-3'>
           <SearchUtil searchType='domain' />
-          <Filter />
+          <Filter allRecords={allRecords}/>
         </div>
 
         {(userDomains.length == 0) ?

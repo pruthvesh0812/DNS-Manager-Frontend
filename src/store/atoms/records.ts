@@ -1,5 +1,7 @@
 import { atom } from "recoil";
 import { recordInterface } from "../../types/recordInterface";
+import { recordResType } from "../../types/recordType";
+
 
 
 const record: recordInterface[] = []
@@ -65,10 +67,21 @@ export const Record = atom({
     default: record
 })
 
+export const RecordCache = atom<recordResType[]>({
+    key: "record cache",
+    default: []
+})
+
 export const singleRecord = atom({
     key: "singleRecord",
     default: oneRecord
 })
+
+export const multipleRecord = atom({
+    key: "multiple records",
+    default: record
+})
+
 
 
 
