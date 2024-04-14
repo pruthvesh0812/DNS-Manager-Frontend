@@ -36,7 +36,9 @@ function Home() {
   const reload = useRecoilValue(ReloadPageState)
   const allRecords = useRecoilValue(Record)
   // const [spinner,setSpinner] = useState(false)
+  useEffect(()=>{
 
+  },[reload])
 
   const getUserDomains = async () => {
     setSpinner(true)

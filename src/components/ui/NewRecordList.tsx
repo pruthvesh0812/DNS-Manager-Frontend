@@ -1,6 +1,6 @@
 
 import { useRecoilValue } from "recoil"
-import { Record, RecordCache } from "../../store/atoms/records"
+import { RecordCache } from "../../store/atoms/records"
 
 import AddRecord from "./AddRecord";
 import DisplayRecords from "./DisplayRecords";

@@ -1,8 +1,8 @@
-import { memo, useEffect, useState } from 'react'
+import {  useState } from 'react'
 import down from '../../img/down.png'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { Domain } from '../../store/atoms/domains'
-import { Record } from '../../store/atoms/records'
+
 import { recordInterface } from '../../types/recordInterface'
 
 const filterList = [

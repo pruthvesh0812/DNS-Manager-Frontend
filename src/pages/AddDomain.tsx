@@ -15,62 +15,62 @@ type AddDomainType = {
   onClose: () => void
 }
 
-const RecordToSet: recordInterface = {
-  record: {
-      param: {
-          Action:"",
-          ChangeBatch: {
-              Changes:[{
-                  Action: "",
-              ResourceRecordSet: {
-                  Name: "",
-                  Type: "",
-                  // AliasTarget: undefined || {
-                      // DNSName: "",
-                      // EvaluateTargetHealth: false,
-                      // HostedZoneId: ""
-                  // },
-                  // CidrRoutingConfig: undefined || {
-                      // CollectionId: "",
-                      // LocationName: ""
-                  // },
-                  // Failover:undefined ||  "",
-                  // GeoLocation: undefined || {
-                      // ContinentCode: "",
-                      // CountryCode: "",
-                      // SubdivisionCode: ""
-                  // },
-                  // GeoProximityLocation:undefined || {
-                      // AWSRegion: "",
-                      // Bias: 0,
-                      // Coordinates: {
-                          // Latitude: "",
-                          // Longitude: ""
-                      // },
-                      // LocalZoneGroup:undefined || ""
-                  // },
-                  // HealthCheckId: undefined ||"",
-                  // MultiValueAnswer: false,
-                  // Region: undefined || "",
-                  ResourceRecords: [
-                      {
-                          Value: ""
-                      }
-                  ],
-                  // SetIdentifier:undefined || "",
-                  TTL: 0,
-                  // TrafficPolicyInstanceId:undefined || "",
-                  // Weight: undefined || 0,
-              }
-          }],
-          Comment: "dfdsfa"
-          },
+// const RecordToSet: recordInterface = {
+//   record: {
+//       param: {
+//           Action:"",
+//           ChangeBatch: {
+//               Changes:[{
+//                   Action: "",
+//               ResourceRecordSet: {
+//                   Name: "",
+//                   Type: "",
+//                   // AliasTarget: undefined || {
+//                       // DNSName: "",
+//                       // EvaluateTargetHealth: false,
+//                       // HostedZoneId: ""
+//                   // },
+//                   // CidrRoutingConfig: undefined || {
+//                       // CollectionId: "",
+//                       // LocationName: ""
+//                   // },
+//                   // Failover:undefined ||  "",
+//                   // GeoLocation: undefined || {
+//                       // ContinentCode: "",
+//                       // CountryCode: "",
+//                       // SubdivisionCode: ""
+//                   // },
+//                   // GeoProximityLocation:undefined || {
+//                       // AWSRegion: "",
+//                       // Bias: 0,
+//                       // Coordinates: {
+//                           // Latitude: "",
+//                           // Longitude: ""
+//                       // },
+//                       // LocalZoneGroup:undefined || ""
+//                   // },
+//                   // HealthCheckId: undefined ||"",
+//                   // MultiValueAnswer: false,
+//                   // Region: undefined || "",
+//                   ResourceRecords: [
+//                       {
+//                           Value: ""
+//                       }
+//                   ],
+//                   // SetIdentifier:undefined || "",
+//                   TTL: 0,
+//                   // TrafficPolicyInstanceId:undefined || "",
+//                   // Weight: undefined || 0,
+//               }
+//           }],
+//           Comment: "dfdsfa"
+//           },
 
-          HostedZoneId: ""
-      },
-  },
-  routingPolicy: ""
-}
+//           HostedZoneId: ""
+//       },
+//   },
+//   routingPolicy: ""
+// }
 
 const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   const [role, setRole] = useState('');

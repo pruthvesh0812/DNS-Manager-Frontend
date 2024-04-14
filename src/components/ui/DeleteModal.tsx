@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 export default function DeleteModal({handleDelete}:{ handleDelete:(isDelete:boolean)=>void}) {
   return (

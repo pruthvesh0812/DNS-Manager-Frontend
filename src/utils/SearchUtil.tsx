@@ -1,5 +1,5 @@
 import { Domain } from "../store/atoms/domains";
-import { Record, RecordCache} from "../store/atoms/records";
+import {  RecordCache} from "../store/atoms/records";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 // import { recordInterface } from "../types/recordInterface";
 import search from "../img/search.png"

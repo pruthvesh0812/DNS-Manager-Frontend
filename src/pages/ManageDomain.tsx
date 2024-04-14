@@ -45,10 +45,10 @@ const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
  
 }
 
-const handleRecordCache = (recordCache:recordInterface[],domainName:string, setRecordCache:React.Dispatch<React.SetStateAction<recordInterface[]>>)=>{
+// const handleRecordCache = (recordCache:recordInterface[],domainName:string, setRecordCache:React.Dispatch<React.SetStateAction<recordInterface[]>>)=>{
  
 
-}
+// }
 
 function ManageDomain() {
  
