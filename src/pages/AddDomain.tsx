@@ -73,7 +73,7 @@ type AddDomainType = {
 // }
 
 const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
-  const [role, setRole] = useState('');
+ 
   const [domain, setDomain] = useState<string>("")
   const [sendRecord, setSendRecord] = useState<boolean>(false)
   // const [numRecordsToSend, SetNumRecordsToSend] = useState<number>(0)
@@ -91,10 +91,7 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
   const setSpinner = useSetRecoilState(SpinnerState)
   const multipleRecords = useRecoilValue(multipleRecord)
 
-  const handleCreateDomain = async () => {
 
-    
-  }
   
   const handleCreateRecord = async () => {
     if(allDomains.some(eachDomain => eachDomain.Name.includes(domain))){
