@@ -66,7 +66,7 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
                     <input
                         type="text"
                         placeholder='Search'
-                        className='pl-10 rounded-sm w-[44vw] h-[7vh] border-2 border-gray-800 hover:border-gray-100 focus:border focus:border-orange-100'
+                        className='pl-10 rounded-sm w-full h-12 hover:border-gray-100 focus:border focus:border-orange-100'
                         onChange={ (e) => {
                             searchbyRecord(e.target.value)
                             console.log(e.target.value, "lsdfkjal")
@@ -87,7 +87,7 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
                     <input
                         type="text"
                         placeholder='Search'
-                        className='pl-10 rounded-sm w-[44vw] h-[7vh] border-2 border-gray-800 hover:border-gray-100 focus:border focus:border-orange-100'
+                        className='pl-10 rounded-sm w-full h-12 hover:border-gray-100 focus:border focus:border-orange-100'
                         onChange={(e) => {
                             searchbyDomain(e.target.value)
                             

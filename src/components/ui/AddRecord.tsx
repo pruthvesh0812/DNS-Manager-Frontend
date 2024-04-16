@@ -72,24 +72,24 @@ function DropdownButton({ label, options, isOpen, toggleDropdown, setValue, show
             <div className="relative bg-white flex">
                 <button
                     onClick={toggleDropdown}
-                    className="flex justify-between items-center px-4 mt-2 w-[10vw] h-[5vh] text-sm font-medium text-gray-700 bg-gray-200 border border-black rounded-sm overflow-hidden"
+                    className="flex justify-between items-center px-3 mt-2 w-[10vw] h-[5vh] text-sm font-medium text-gray-700 bg-gray-100 border  rounded-sm overflow-hidden"
                 >
                     {   // XOR
                         (click === false && showLabel === true) || (click === true && showLabel === false) ?
                             <div className="flex justify-between">
                                 <span className="truncate">{label}</span>
-                                <img src={down} alt="" className='w-[20%] h-1/2 ' />
+                                <img src={down} alt="" className='w-[16%] h-1/2 mt-1' />
 
                             </div> :
                             <div className="flex justify-between">
                                 <span className="truncate">{optionClicked}</span>
-                                <img src={down} alt="" className='w-[20%] h-1/2 ' />
+                                <img src={down} alt="" className='w-[16%] h-1/2 mt-1' />
                             </div>
                     }
 
                 </button>
                 {isOpen && (
-                    <div className="absolute z-20 right-0 mt-[4vh] top-2 w-[250%] bg-white border border-gray-300 rounded-md shadow-lg">
+                    <div className="absolute z-20 right-0 mt-[4vh] top-2 w-[250%] bg-white border border-gray-300 rounded-md shadow-inner-lg">
                         <ul>
                             {options.map((option, index) => (
                                 <>
@@ -137,9 +137,9 @@ export default function AddRecord() {
                 <div className='col-span-1 text-center mt-2'>
                     <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
                         value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name}
-                        placeholder='Enter record name'
+                        placeholder='Enter name'
                         onChange={(e) => {
                             console.log(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name, "rnsdfa")
                             console.log(e.target.value, "rn")
@@ -172,9 +172,9 @@ export default function AddRecord() {
                 <div className='col-span-1  text-center'>
                     {/* <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
             
-                        placeholder='Enter record Type'
+                        placeholder='Enter Type'
                         onChange={(e) => (recordToSet.record.param.ResourceRecordSet.Type = e.target.value)}
                     /> */}
                     <DropdownButton
@@ -216,9 +216,9 @@ export default function AddRecord() {
                 <div className='col-span-1 mt-2 text-center'>
                     <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
                         value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords ? (recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords[0].Value) : ""}
-                        placeholder='Enter record value'
+                        placeholder='Enter value'
                         onChange={(e) => {
                             if (recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords) {
                                 setRecordToSet(prev => ({
@@ -250,7 +250,7 @@ export default function AddRecord() {
                 <div className='col-span-1  text-center '>
                     {/* <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
             
                         placeholder='Enter routing policy'
                         onChange={(e) => (recordToSet.routingPolicy = e.target.value)}
@@ -277,7 +277,7 @@ export default function AddRecord() {
                 <div className='col-span-1  text-center '>
                     {/* <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
 
                         placeholder='Enter alias'
                         onChange={(e) => {
@@ -346,7 +346,7 @@ export default function AddRecord() {
                 <div className='col-span-1 mt-2  text-center '>
                     <input
                         type="number"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
                         value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL}
                         placeholder='Enter TTL'
                         onChange={(e) => {

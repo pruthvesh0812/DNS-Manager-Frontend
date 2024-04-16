@@ -10,7 +10,7 @@ export default function RecordList() {
   console.log(allRecords, "allRecords")
   return (
     <div>
-      <div className='grid grid-cols-7'>
+      <div className='grid grid-cols-7 mt-4'>
         <div className='col-span-1 text-center'>
           <h4 className='text-lg'>Record</h4>
         </div>

@@ -263,18 +263,18 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
             <div className="fixed inset-0 transition-opacity">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
-            <div className="bg-white rounded-md p-8  relative">
+            <div className="bg-[#fefefe] rounded-md p-8  relative">
               <input
                 type="text"
                 name=""
                 id=""
                 value={domain}
-                className="border border-black rounded-sm w-full h-[7vh] mb-7 bg-gray-200 pl-2"
+                className="border  rounded-sm w-full h-[7vh] mb-7 bg-slate-100 pl-2 shadow  hover:border-orange-300 "
                 placeholder="Domain"
                 onChange={(e) => { 
                   setDomain(e.target.value) }}
               />
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="inline-flex items-center text-xs">
                   <input
                     type="radio"
@@ -297,27 +297,27 @@ const AddDomain = ({ isOpen, onClose }: AddDomainType) => {
                   />
                   <span className="ml-2">Public</span>
                 </label>
-              </div>
-              <div className='flex justify-end'>
+              </div> */}
+              {/* <div className='flex justify-end'>
                 <button
                   onClick={handleCreateDomain}
                   className="bg-orange-500 text-white px-4  rounded-sm ml-2 text-sm font-bold"
                 >
                   Create Done
                 </button>
-              </div>
+              </div> */}
               <Title text="Records" />
               <RecordList />
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end mt-7 gap-x-1">
                 <button
                   onClick={handleCreateRecord}
-                  className="bg-orange-500 text-white px-4  rounded-sm ml-2 text-sm font-bold"
+                  className="bg-orange-500 text-white px-4 py-2 rounded ml-2 text-md font-semibold"
                 >
                   Create Records
                 </button>
                 <button
                   onClick={onClose}
-                  className="ml-2 bg-gray-300 text-gray-700 px-4 py-1 rounded-sm text-sm"
+                  className="ml-2 bg-red-600 text-slate-100 px-4 py-1 rounded text-md font-normal"
                 >
                   Cancel
                 </button>

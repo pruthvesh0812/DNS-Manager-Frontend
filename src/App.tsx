@@ -11,9 +11,9 @@ export const ENV= import.meta.env
 
 export default function App() {
   // console.log(BASE_URL, "bu")
- 
+
   return (
-    <div>
+    <div className='bg-[#08141f]'>
       <RecoilRoot>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ export default function App() {
           {/* <Route path={`/manage:domainName`} element={<ManageDomain />} /> */}
           <Route path="/setting" element={<Settings />} />
           <Route path="/bulk" element={<BulkUpload />} />
-          <Route path="/signup-login" element={<LoginSignup />} />
+          <Route path="/signup" element={<LoginSignup />} />
 
         </Routes>
       </RecoilRoot>

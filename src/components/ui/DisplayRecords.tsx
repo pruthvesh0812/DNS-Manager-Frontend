@@ -140,15 +140,21 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
         value = recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords[0].Value
     }
     if (recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget) {
-        alias = String(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget.EvaluateTargetHealth)
+        if(recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget.EvaluateTargetHealth){
+            alias = "True"
+        }
+        else{
+            alias="False"
+        }
+        
     }
     return (
         <>
-            <div className='grid grid-cols-7 gap-x-4'>
+            <div className='grid grid-cols-7 gap-x-4 mt-6'>
                 <div className='col-span-1  text-center mt-2'>
                     <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg bg-[#ffd5b4] px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                         value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name}
                         placeholder='Enter name'
                         disabled={!edit}
@@ -224,7 +230,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                             <div>
                                 <input
                                     type="text"
-                                    className='text-lg border-2 mt-2 mr-3 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                                    className='text-lg bg-[#ffd5b4] mt-2 mr-3 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                                     value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Type}
                                     placeholder='Enter Type'
                                     disabled={!edit}
@@ -239,7 +245,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                 <div className='col-span-1  mt-2 text-center'>
                     <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg bg-[#ffd5b4] px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                         value={value}
                         placeholder='Enter value'
                         disabled={!edit}
@@ -297,7 +303,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                             <div>
                                 <input
                                     type="text"
-                                    className='text-lg border-2 px-1 mt-2 mr-3 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                                    className='text-lg bg-[#ffd5b4] px-1 mt-2 mr-3 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                                     value={recordToSet.routingPolicy}
                                     placeholder='Enter routing policy'
                                     disabled={!edit}
@@ -372,7 +378,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                             <div>
                                 <input
                                     type="text"
-                                    className='text-lg border-2 px-1 mt-2 mr-3 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                                    className='text-lg bg-[#ffd5b4] px-1 mt-2 mr-3 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                                     value={alias}
                                     placeholder='Enter alias'
                                     disabled={!edit}
@@ -385,7 +391,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                 <div className='col-span-1 mt-2 text-center'>
                     <input
                         type="text"
-                        className='text-lg border-2 px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
+                        className='text-lg bg-[#ffd5b4] px-1 h-[5vh] w-[7vw] rounded-sm border-gray-600'
                         value={recordToSet.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL}
                         placeholder='Enter TTL'
                         disabled={!edit}

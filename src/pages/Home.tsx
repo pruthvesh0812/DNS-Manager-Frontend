@@ -3,7 +3,7 @@ import '../App.css'
 import NavBar from '../components/ui/NavBar'
 
 
-import Button from '../components/ui/Button'
+
 import Filter from '../components/ui/Filter'
 import AddDomain from './AddDomain'
 
@@ -13,7 +13,7 @@ import { useSetRecoilState } from 'recoil'
 import { useRecoilValue } from 'recoil'
 import axios from 'axios'
 
-import { useNavigate } from 'react-router-dom'
+
 import SearchUtil from '../utils/SearchUtil';
 import Spinner from '../components/ui/Spinner'
 import { SpinnerState } from '../store/atoms/Spinner'
@@ -76,12 +76,12 @@ function Home() {
     getUserDomains()
   }, [])
 
-  const navigate = useNavigate()
+
  
 
 
   return (
-    <div className='flex bg-black h-[100vh]'>
+    <div className='flex bg-[#08141f] h-[100vh]'>
       <NavBar />
       {
         (spinner && (
@@ -90,26 +90,31 @@ function Home() {
           </div>
         ))
       }
-      <div className='px-32 w-[80vw] pt-20'>
-        <div className='flex justify-end'>
-          <Button text="CSV Upload" callBack={() => {
-            navigate("/bulk")
-          }} />
-          <button onClick={() => {
-            setIsModal(true);
-          }}
-            className='bg-orange-500 text-white px-2 py-1 rounded-sm ml-2 text-sm font-bold'>
-            Add Domain
-          </button>
-          <AddDomain
-            isOpen={isModal}
-            onClose={() => {
-              setIsModal(false)
-            }} />
-        </div>
-        <div className='flex w-full mt-2 mb-3'>
-          <SearchUtil searchType='domain' />
-          <Filter allRecords={allRecords}/>
+      {/* <div className='flex flex-col'>
+      <div className='flex justify-end mt-2'>         
+          <button className='bg-orange-500 text-white w-auto py-1 px-3 mr-2  rounded-sm  text-lg font-bold'>Sign Up</button>
+      </div> */}
+      <div className='px-20 w-[80vw] '>
+      
+        <div className='grid grid-cols-5 mt-2 mb-3 gap-x-2 pt-20'>
+          <div className='col-span-3'>
+            <SearchUtil searchType='domain' />
+          </div>
+          <div className='col-span-1'>
+            <Filter allRecords={allRecords}/>            
+          </div>
+          <div className='col-span-1'>
+            <button onClick={() => {
+                setIsModal(true);
+              }}
+                className='bg-orange-500 text-white px-4 py-2 h-12  rounded-sm ml-3 text-[1.2vw] font-bold'>
+                Add Domain
+            </button>
+            <AddDomain isOpen={isModal}
+                  onClose={() => {
+                    setIsModal(false)
+                  }} />
+          </div>
         </div>
 
         {(userDomains.length == 0) ?
@@ -129,7 +134,8 @@ function Home() {
         }
 
       </div>
-    </div>
+      </div>
+    // </div>
   )
 }
 

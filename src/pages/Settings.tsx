@@ -30,7 +30,7 @@ export default function Settings() {
 
     return (
         <div>
-            <div className='flex h-[100vh] bg-gray-50'>
+            <div className='flex h-[100vh] bg-[#08141f] text-slate-100'>
                 <NavBar />
                 <div className='px-32 w-[80vw] pt-20'>
                     <Title text="User Role" />

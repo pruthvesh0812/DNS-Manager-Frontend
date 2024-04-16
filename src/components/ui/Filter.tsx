@@ -62,7 +62,7 @@ const FilterList = ({filterList,allRecords}:{filterList:filterList[],allRecords:
           return (
             <div className='my-2' id={eachFilter.filterType}>
               <label className='font-bold text-lg' >{eachFilter.filterType}</label>
-              <div className='grid grid-cols-6 gap-x-2'>
+              <div className='grid grid-cols-8 gap-x-2'>
                 {
                   eachFilter.filter.map(filterVal =>{
                    return (
@@ -94,36 +94,36 @@ export default function Filter({allRecords}:{allRecords:recordInterface[]}) {
     setIsOpen(!isOpen);
   };
   return (
-    <div className='w-full'>
-      <div className="relative ml-1 w-full h-[7vh] bg-white flex z-20">
+    <div >
+    
 
-        <h4 className=' px-2 text-lg pt-2'>Filter</h4>
 
         <button
           onClick={toggleFilter}
-          className="flex  px-4 mt-2 ml-16 h-[5vh] w-[50%] text-sm font-medium text-gray-700 bg-gray-200 border border-black rounded-sm "
+          className="flex  px-3 relative h-full w-full  font-medium  bg-slate-100 rounded z-30  "
         >
-          <img src={down} alt="" className='w-5 absolute right-10 top-[30%]' />
+           <h4 className='  text-xl py-[10px]'>Filter</h4>
+          <img src={down} alt="" className='w-4 absolute right-3 top-4' />
         </button>
         {isOpen && (
-          <div className="absolute right-0 w-full mt-2 top-6 origin-top-right  bg-white rounded-md shadow-lg">
-            <div className="px-2 py-2 space-y-1">
+          <div className="absolute right-[20%]  mt-2 top-30 origin-top-right  bg-white rounded-md shadow-lg">
+            <div className="px-2 py-2 ">
               <div className="p-4 pb-0">
                 {/* <CheckboxList names={names} /> */}
                 <FilterList filterList={filterList} allRecords={allRecords}/>
               </div>
-              <div className='flex gap-x-6  '>
+              {/* <div className='flex gap-x-6  '>
                 <label className="text-sm pl-4">TTL</label>
                 <input type="number" name="" id="ttl" className='border-2 w-[6vw] ml-4 h-[4vh] border-gray-400' />
               </div>
               <div className='flex gap-x-1'>
                 <label className="text-sm pl-4">Record</label>
                 <input type="text" name="" id="record" className='border-2 w-[6vw] ml-4 h-[4vh] border-gray-400' />
-              </div>
+              </div> */}
             </div>
           </div>
         )}
       </div>
-    </div>
+   
   )
 }

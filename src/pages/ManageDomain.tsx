@@ -123,12 +123,16 @@ function ManageDomain() {
 
     <div className='flex h-[100vh]'>
       <NavBar />
-      <div className='flex flex-col px-32 w-[80vw] py-5'>
+      <div className='flex flex-col px-32 w-[80vw] py-5 bg-[#08141f] text-slate-100'>
         <h4 className='font-bold mb-2'>{domainObj.name}</h4>
         <Title text="Records" />
-        <div className='flex w-full mt-2 mb-8'>
+        <div className='grid grid-cols-5 mt-2 mb-8 gap-x-3'>
+          <div className='col-span-3'>
           <SearchUtil searchType='record' /> 
+          </div>
+          <div className='col-span-1'>
           <Filter allRecords={modifiedRecord}/>
+          </div>
         </div>
 
         <NewRecordList hostedZoneId={domainObj.hostedZoneId}/>
