@@ -6,7 +6,7 @@ import AddRecord from "./AddRecord";
 import DisplayRecords from "./DisplayRecords";
 import { recordInterface } from "../../types/recordInterface";
 
-export default function RecordList({hostedZoneId}:{hostedZoneId:string}) {
+export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,domain:string}) {
   const allRecords = useRecoilValue(RecordCache);
   const modifiedRecord:recordInterface[] = allRecords.map(eachRecord =>(
     {
@@ -60,7 +60,9 @@ export default function RecordList({hostedZoneId}:{hostedZoneId:string}) {
         </div>
       </div>
 
+      <div className="text-black">
       <AddRecord />
+      </div>
 
       {(allRecords.length == 0) ?
         <div>
@@ -72,8 +74,8 @@ export default function RecordList({hostedZoneId}:{hostedZoneId:string}) {
             
             modifiedRecord.map((record, idx) => {
               console.log(record)
-              return <div key={idx} >
-                <DisplayRecords record={record} isEdit={false} />
+              return <div key={idx} className="text-black">
+                <DisplayRecords record={record} isEdit={false} hostedZoneId={hostedZoneId} domain={domain}/>
               </div>
             })
           }

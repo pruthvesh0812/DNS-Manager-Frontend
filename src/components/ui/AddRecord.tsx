@@ -69,7 +69,7 @@ function DropdownButton({ label, options, isOpen, toggleDropdown, setValue, show
     const [optionClicked, SetOptionClicked] = useState<string>("")
     return (
         <div className='col-span-1  w-28 text-lg'>
-            <div className="relative bg-white flex">
+            <div className="relative  flex">
                 <button
                     onClick={toggleDropdown}
                     className="flex justify-between items-center px-3 mt-2 w-[10vw] h-[5vh] text-sm font-medium text-gray-700 bg-gray-100 border  rounded-sm overflow-hidden"

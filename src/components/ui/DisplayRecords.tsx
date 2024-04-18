@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import { NumRecordsToSend, Record, singleRecord } from "../../store/atoms/records";
+import { NumRecordsToSend, Record, RecordCache, singleRecord } from "../../store/atoms/records";
 import { recordInterface } from "../../types/recordInterface";
 // import Button from "./Button";
 import { useEffect, useState } from "react";
@@ -7,6 +7,9 @@ import down from '../../img/down.png';
 // import deleteImg from '../../img/delete.png';
 import setting from '../../img/setting.png';
 import Button from "./Button";
+import axios from "axios";
+import { ENV } from "../../App";
+import { getRecordsForDomain } from "../../pages/ManageDomain";
 
 const RecordToSet: recordInterface = {
     record: {
@@ -14,7 +17,7 @@ const RecordToSet: recordInterface = {
             Action:"",
             ChangeBatch: {
                 Changes:[{
-                    Action: "",
+                    Action: "UPDATE",
                 ResourceRecordSet: {
                     Name: "",
                     Type: "",
@@ -119,7 +122,7 @@ export const PolicyOptions = ["Simple Routing"]
 
 export const AliasOptions = ["true", "false"]
 
-export default function DisplayRecords({ record, isEdit }: { record: recordInterface, isEdit: boolean }) {
+export default function DisplayRecords({ record, isEdit, hostedZoneId, domain }: { record: recordInterface, isEdit: boolean,hostedZoneId:string ,domain:string}) {
     const setOneRecords = useSetRecoilState(singleRecord)
     const [isOpenType, setIsOpenType] = useState<boolean>(false)
     const [isOpenRP, setIsOpenRP] = useState<boolean>(false)
@@ -127,7 +130,9 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
     const [edit, setEdit] = useState<boolean>(false)
     const SetNumRecordsToSend = useSetRecoilState(NumRecordsToSend)
     const SetAllRecords = useSetRecoilState(Record)
+    const setRecordCache = useSetRecoilState(RecordCache)
     const [recordToSet, setRecordToSet] = useState<recordInterface>(RecordToSet)
+    const [updating,setUpdating] = useState(false)
 
     useEffect(() => {
         setEdit(isEdit);
@@ -148,6 +153,7 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
         }
         
     }
+
     return (
         <>
             <div className='grid grid-cols-7 gap-x-4 mt-6'>
@@ -433,16 +439,73 @@ export default function DisplayRecords({ record, isEdit }: { record: recordInter
                     {
                         (edit) ?
                             <div>
-                                <Button text="Done" callBack={() => {
-                                    SetNumRecordsToSend(prev => prev + 1)
-                                    setOneRecords(recordToSet)
-                                    SetAllRecords(prev => [...prev.slice(0, -1), recordToSet])
-                                    console.log(recordToSet, "record to set")
+                                <Button text="Done" callBack={async () => {
                                     setEdit(false)
+                                    setUpdating(true)
+                                    SetNumRecordsToSend(prev => prev + 1)
+                                    const recordToSetCopy:recordInterface= JSON.parse(JSON.stringify(recordToSet))
+                                    recordToSetCopy.record.param.ChangeBatch.Changes[0].Action = "UPSERT"
+                                    
+                                    //updating record changes
+                                    try{
+                                        const res = await axios.put(`${ENV.VITE_APP_BASE_URL}/api/record/update`,recordToSetCopy,{
+                                            headers:{
+                                                "Authorization":`Bearer ${localStorage.getItem('token')}`
+                                            }
+                                        })
+                                        if(res){
+                                            console.log(res.data.status)
+                                            alert(`update status: ${res.data.status}`)
+                                            setUpdating(false)                                            
+                                        }
+                                    }
+                                    catch(err){
+                                        alert(err)
+                                    }             
+                                    console.log(recordToSetCopy, "record to set")
+                                    const recordUpdated = await getRecordsForDomain(domain)
+                                    setRecordCache(recordUpdated)
+
+                                    const recordUpdatedInterfaceType =  recordUpdated.map(eachRecord =>(
+                                        {
+                                         record: {
+                                           param: {
+                                               Action: "",
+                                               
+                                               ChangeBatch: {
+                                                   Changes: [{
+                                                       Action: "",
+                                                       ResourceRecordSet: {
+                                                           Name: eachRecord.Name,
+                                                           Type: eachRecord.Type,
+                                                          
+                                                          
+                                                           ResourceRecords:eachRecord.ResourceRecords,
+                                                          
+                                                           TTL: eachRecord.TTL,
+                                                        
+                                                       }
+                                                   }],
+                                              
+                                               },
+                                    
+                                               HostedZoneId: hostedZoneId
+                                           },
+                                       },
+                                       routingPolicy: "Simple Routing"
+                                     }))
+                                    SetAllRecords(recordUpdatedInterfaceType)
+                                    
+                                    // setOneRecords(recordToSetCopy)
                                 }} />
                             </div>
                             :
                             <div>
+                                {
+                                    (updating ? (
+                                        <div className="text-slate-200/40 text-sm ml-4 w-[200%] mt-1">Updating Please Wait ..</div>
+                                    ):<div></div>)
+                                }
                             </div>
                     }
                 </div>

@@ -25,7 +25,7 @@ import { recordResType } from '../types/recordType.ts'
 
 
 
-const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
+export const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
   
   const domainName = domain.substring(0,domain.length-1);
   console.log("asdfjasdf",domain,"sdf",domainName)
@@ -121,21 +121,21 @@ function ManageDomain() {
 
   return (
 
-    <div className='flex h-[100vh]'>
+    <div className='flex h-[150vh]'>
       <NavBar />
       <div className='flex flex-col px-32 w-[80vw] py-5 bg-[#08141f] text-slate-100'>
-        <h4 className='font-bold mb-2'>{domainObj.name}</h4>
+        <div className='font-bold mb-2 flex'>Domain: <p className='ml-2 underline underline-offset-2'>{domainObj.name}</p> </div>
         <Title text="Records" />
         <div className='grid grid-cols-5 mt-2 mb-8 gap-x-3'>
           <div className='col-span-3'>
-          <SearchUtil searchType='record' /> 
+          <SearchUtil searchType='record' domain={domainObj.name} /> 
           </div>
-          <div className='col-span-1'>
+          <div className='col-span-1 text-black'>
           <Filter allRecords={modifiedRecord}/>
           </div>
         </div>
 
-        <NewRecordList hostedZoneId={domainObj.hostedZoneId}/>
+        <NewRecordList hostedZoneId={domainObj.hostedZoneId} domain={domainObj.name}/>
         <div className='mt-8 '>
           {/* <div className='flex justify-end mt-5'>
             <button className='bg-orange-500 text-white px-4 py-1 rounded-sm text-sm font-bold'>Delete Selected</button>

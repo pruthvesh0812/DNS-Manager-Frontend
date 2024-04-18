@@ -122,10 +122,11 @@ function Home() {
             <h1 className='text-lg text-center mt-8 text-slate-200'>No Domains Created</h1>
           </div>
           :
-          <div>
+          <div className='mt-12'>
+            <h1 className='text-slate-100 my-4'>All Domains</h1>
             {
               userDomains.map(domain => {
-                return <div>
+                return <div className='mt-4'>
                   <DomainCard name={domain.Name} hostedZoneId={domain.hostedZoneId} />
                 </div>
               })

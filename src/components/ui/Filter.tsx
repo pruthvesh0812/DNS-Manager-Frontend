@@ -106,7 +106,7 @@ export default function Filter({allRecords}:{allRecords:recordInterface[]}) {
           <img src={down} alt="" className='w-4 absolute right-3 top-4' />
         </button>
         {isOpen && (
-          <div className="absolute right-[20%]  mt-2 top-30 origin-top-right  bg-white rounded-md shadow-lg">
+          <div className="absolute right-[20%]  mt-2 top-50 origin-top-right  bg-white rounded-md shadow-lg">
             <div className="px-2 py-2 ">
               <div className="p-4 pb-0">
                 {/* <CheckboxList names={names} /> */}

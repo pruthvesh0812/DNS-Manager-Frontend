@@ -3,6 +3,7 @@ import {  RecordCache} from "../store/atoms/records";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 // import { recordInterface } from "../types/recordInterface";
 import search from "../img/search.png"
+import { getRecordsForDomain } from "../pages/ManageDomain";
 
 // const allDomains = [
 //     {
@@ -19,7 +20,7 @@ import search from "../img/search.png"
 
 
 
-export default function SearchUtil({ searchType }: { searchType: string }) {
+export default function SearchUtil({ searchType,domain }: { searchType: string, domain?:string }) {
 
 
 
@@ -28,19 +29,33 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
     const setAllRecords = useSetRecoilState(RecordCache)
     const setAllDomains = useSetRecoilState(Domain)
 
-    const searchbyRecord = (searchPattern: string) => {
+    const searchbyRecord = async (searchPattern: string,len:number) => {
         
-        if (allRecords.length != 0) {
+        if (allRecords.length != 0 && len != 0) {
             const filteredRecords = allRecords.filter(eachRecord => {
                 const str = eachRecord.Name
                 return str.includes(searchPattern)
             })
             console.log(filteredRecords,"fl")
-         
+
+            if(filteredRecords.length == 0){
+                console.log("sdf")
+            }
+            else{
                 setAllRecords(filteredRecords)
+
+            }
+         
          
         }
         else {
+            try{
+                const records = await getRecordsForDomain(domain as string)
+                setAllRecords(records)
+            }
+            catch(err){
+                alert(err)
+            }
             console.log("no record")
         }
 
@@ -68,7 +83,7 @@ export default function SearchUtil({ searchType }: { searchType: string }) {
                         placeholder='Search'
                         className='pl-10 rounded-sm w-full h-12 hover:border-gray-100 focus:border focus:border-orange-100'
                         onChange={ (e) => {
-                            searchbyRecord(e.target.value)
+                            searchbyRecord(e.target.value,e.target.value.length)
                             console.log(e.target.value, "lsdfkjal")
 
                         }}
