@@ -116,7 +116,7 @@ export const TypeOptions = ["A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV
 // export const PolicyOptions = ["Simple Routing", "Weighted Routing", "Latency Routing", "Failover Routing", "Geolocation Routing", "Multi-Value Routing", "Geoproximity Routing"]
 export const PolicyOptions = ["Simple Routing"]
 
-export const AliasOptions = ["true", "false"]
+export const AliasOptions = ["false"]
 
 export default function AddRecord({addNewRec,hostedZoneId,setSpinner}:{addNewRec?: (hostedZoneId:string,newRecord:recordInterface)=>void, hostedZoneId?:string,setSpinner?:React.Dispatch<React.SetStateAction<boolean>>}) {
     const setOneRecords = useSetRecoilState(singleRecord)

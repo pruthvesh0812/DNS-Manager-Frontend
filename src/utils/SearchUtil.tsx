@@ -4,6 +4,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 // import { recordInterface } from "../types/recordInterface";
 import search from "../img/search.png"
 import { getRecordsForDomain } from "../pages/ManageDomain";
+import { useEffect, useState } from "react";
+import { domainType } from "../types/domainTypes";
 
 // const allDomains = [
 //     {
@@ -28,6 +30,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
     const allDomains = useRecoilValue(Domain)
     const setAllRecords = useSetRecoilState(RecordCache)
     const setAllDomains = useSetRecoilState(Domain)
+    const [domains,setDomains] = useState<domainType[]>()
 
     const searchbyRecord = async (searchPattern: string,len:number) => {
         
@@ -61,16 +64,28 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
 
 
     }
+    useEffect(()=>{
+        setDomains(allDomains)
+    },[])
 
 
     const searchbyDomain = (searchPattern: string) => {
 
-        const filteredDomains = allDomains.filter(domain => {
-            return domain.Name.includes(searchPattern.toLowerCase())
-        })
-        setTimeout(() => {
-            setAllDomains(filteredDomains)
-        }, 1000)
+       
+        if(searchPattern.length != 0){
+            const filteredDomains = allDomains.filter(domain => {
+                return domain.Name.includes(searchPattern.toLowerCase())
+            })
+            setTimeout(() => {
+                
+                setAllDomains(filteredDomains)
+            }, 1000)
+        }
+        else{
+            if(domains){
+                setAllDomains(domains)
+            }
+        }
 
     }
 

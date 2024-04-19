@@ -121,7 +121,7 @@ export const TypeOptions = ["A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV
 // export const PolicyOptions = ["Simple Routing", "Weighted Routing", "Latency Routing", "Failover Routing", "Geolocation Routing", "Multi-Value Routing", "Geoproximity Routing"]
 export const PolicyOptions = ["Simple Routing"]
 
-export const AliasOptions = ["true", "false"]
+export const AliasOptions = ["false"]
 
 export default function DisplayRecords({ record, isEdit, hostedZoneId, domain , setSpinner}: { record: recordInterface, isEdit: boolean,hostedZoneId?:string ,domain?:string, setSpinner?:React.Dispatch<React.SetStateAction<boolean>>}) {
     // const setOneRecords = useSetRecoilState(singleRecord)
@@ -157,7 +157,7 @@ export default function DisplayRecords({ record, isEdit, hostedZoneId, domain , 
 
     return (
         <>
-            <div className='grid grid-cols-7 gap-x-4 mt-6'>
+            <div className='grid grid-cols-7 gap-x-4 mt-3 mb-5'>
                 <div className='col-span-1  text-center mt-2'>
                     <input
                         type="text"

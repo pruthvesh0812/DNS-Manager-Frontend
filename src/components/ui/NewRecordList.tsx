@@ -106,7 +106,8 @@ export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,do
           <h1 className='text-lg text-center mt-8'>No record exists</h1>
         </div>
         :
-        <div className="z-10" >
+        <div className="z-10 rounded-md border-sky-800 border my-8  overflow-hidden h-[80%]" >
+          <div className=" overflow-y-auto max-h-[110%]">
           {
             
             modifiedRecord.map((record, idx) => {
@@ -116,6 +117,7 @@ export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,do
               </div>
             })
           }
+          </div>
         </div>
 
       }

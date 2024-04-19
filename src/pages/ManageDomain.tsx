@@ -135,7 +135,7 @@ function ManageDomain() {
         </div>
 
         <NewRecordList hostedZoneId={domainObj.hostedZoneId} domain={domainObj.name}/>
-        <div className='mt-8 '>
+        <div className='mt-20'>
           {/* <div className='flex justify-end mt-5'>
             <button className='bg-orange-500 text-white px-4 py-1 rounded-sm text-sm font-bold'>Delete Selected</button>
           </div> */}

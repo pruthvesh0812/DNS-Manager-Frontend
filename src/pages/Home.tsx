@@ -40,7 +40,7 @@ function Home() {
 
   },[reload])
 
-  const getUserDomains = async () => {
+   const getUserDomains = async () => {
     setSpinner(true)
     try {
       const responseDomains = await axios.get(`${ENV.VITE_APP_BASE_URL}/api/domain/hostedZones`, {
