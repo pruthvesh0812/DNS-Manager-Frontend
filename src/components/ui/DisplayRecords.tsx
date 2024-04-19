@@ -1,11 +1,12 @@
 import { useSetRecoilState } from "recoil";
-import { NumRecordsToSend, Record, RecordCache, singleRecord } from "../../store/atoms/records";
+import { NumRecordsToSend, Record, RecordCache } from "../../store/atoms/records";
 import { recordInterface } from "../../types/recordInterface";
 // import Button from "./Button";
 import { useEffect, useState } from "react";
 import down from '../../img/down.png';
 // import deleteImg from '../../img/delete.png';
 import setting from '../../img/setting.png';
+import deletee from '../../img/delete.png' 
 import Button from "./Button";
 import axios from "axios";
 import { ENV } from "../../App";
@@ -122,8 +123,8 @@ export const PolicyOptions = ["Simple Routing"]
 
 export const AliasOptions = ["true", "false"]
 
-export default function DisplayRecords({ record, isEdit, hostedZoneId, domain }: { record: recordInterface, isEdit: boolean,hostedZoneId:string ,domain:string}) {
-    const setOneRecords = useSetRecoilState(singleRecord)
+export default function DisplayRecords({ record, isEdit, hostedZoneId, domain , setSpinner}: { record: recordInterface, isEdit: boolean,hostedZoneId?:string ,domain?:string, setSpinner?:React.Dispatch<React.SetStateAction<boolean>>}) {
+    // const setOneRecords = useSetRecoilState(singleRecord)
     const [isOpenType, setIsOpenType] = useState<boolean>(false)
     const [isOpenRP, setIsOpenRP] = useState<boolean>(false)
     const [isOpenAlias, setIsOpenAlias] = useState<boolean>(false)
@@ -432,8 +433,27 @@ export default function DisplayRecords({ record, isEdit, hostedZoneId, domain }:
                 </div>
 
                 <div className="inline-flex mt-2">
-                    <img src={setting} alt="" className='w-8' onClick={() => { setEdit((p) => !p) }} />
+                    <img src={setting} alt="edit" className='w-8' onClick={() => { setEdit((p) => !p) }} />
+                    <img src={deletee} alt="delete"  className='w-8' onClick={async () => { 
+                         if(setSpinner){
+                             setSpinner(true)
+                         }
+                         const newRecordCopy:recordInterface = JSON.parse(JSON.stringify(record))
+                         newRecordCopy.record.param.ChangeBatch.Changes[0].Action = "DELETE"
+                        const response = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/record/delete`,newRecordCopy,{
+                            headers:{
+                                "Authorization":`Bearer ${localStorage.getItem('token')}`
 
+                            }
+                        })
+                        if(response){
+                           const data=  await getRecordsForDomain(domain as string)
+                           setRecordCache(data)
+                           if(setSpinner){
+                               setSpinner(false)
+                           }
+                        }
+                    }} />
                     {/* <img src={deleteImg} onClick={openModal}  alt="" className='w-[20%] ml-3 cursor-pointer'/> */}
                     {/* <DeleteConfirm isOpen={isModal} onClose={closeModal} handleDelete={handleDelete} id={domain.id}/> */}
                     {
@@ -463,7 +483,7 @@ export default function DisplayRecords({ record, isEdit, hostedZoneId, domain }:
                                         alert(err)
                                     }             
                                     console.log(recordToSetCopy, "record to set")
-                                    const recordUpdated = await getRecordsForDomain(domain)
+                                    const recordUpdated = await getRecordsForDomain(domain as string)
                                     setRecordCache(recordUpdated)
 
                                     const recordUpdatedInterfaceType =  recordUpdated.map(eachRecord =>(
@@ -489,7 +509,7 @@ export default function DisplayRecords({ record, isEdit, hostedZoneId, domain }:
                                               
                                                },
                                     
-                                               HostedZoneId: hostedZoneId
+                                               HostedZoneId: hostedZoneId as string
                                            },
                                        },
                                        routingPolicy: "Simple Routing"

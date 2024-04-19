@@ -5,6 +5,7 @@ import Button from "./Button";
 import { useState } from "react";
 import down from '../../img/down.png';
 
+
 const RecordToSet: recordInterface = {
     record: {
         param: {
@@ -117,7 +118,7 @@ export const PolicyOptions = ["Simple Routing"]
 
 export const AliasOptions = ["true", "false"]
 
-export default function AddRecord() {
+export default function AddRecord({addNewRec,hostedZoneId,setSpinner}:{addNewRec?: (hostedZoneId:string,newRecord:recordInterface)=>void, hostedZoneId?:string,setSpinner?:React.Dispatch<React.SetStateAction<boolean>>}) {
     const setOneRecords = useSetRecoilState(singleRecord)
     const setMultipleRecords = useSetRecoilState(multipleRecord)
     const [isOpenType, setIsOpenType] = useState<boolean>(false)
@@ -380,6 +381,7 @@ export default function AddRecord() {
 
                 <div className="inline-flex mt-2">
                     <Button text="Add" callBack={() => {
+
                         SetNumRecordsToSend(prev => prev + 1)
                         setOneRecords(recordToSet)
                         setMultipleRecords(multiple =>[...multiple,recordToSet])
@@ -387,6 +389,14 @@ export default function AddRecord() {
                         console.log(recordToSet, "record to set")
                         setRecordToSet(RecordToSet)
                         setShowLabel((prev) => !prev)
+
+                        // this is for manage domain - to add records to already created domain and initial set of records
+                        if(addNewRec != undefined){
+                            addNewRec(hostedZoneId as string,recordToSet)
+                            if(setSpinner){
+                                setSpinner(true)
+                            }
+                        }
 
                     }} />
                 </div>

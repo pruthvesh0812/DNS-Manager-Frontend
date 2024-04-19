@@ -1,29 +1,20 @@
-
 import '../App.css'
 import NavBar from '../components/ui/NavBar'
-
 import risk from '../img/risk.png'
 import upload from '../img/upload.png'
-
 import Title from '../components/ui/Title'
-
-
 import Filter from '../components/ui/Filter'
-
-
 import SearchUtil from '../utils/SearchUtil.tsx'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { ManageDomainAtom } from '../store/atoms/domains'
 import NewRecordList from '../components/ui/NewRecordList'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ENV } from '../App.tsx'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { recordInterface } from '../types/recordInterface.ts'
 import { Record, RecordCache, singleRecord } from '../store/atoms/records.ts'
 import { recordResType } from '../types/recordType.ts'
-
-
 
 export const getRecordsForDomain = async (domain:string):Promise<recordResType[]> =>{
   
@@ -58,7 +49,15 @@ function ManageDomain() {
   const newRecord = useRecoilValue(singleRecord)
   const domainObj = useRecoilValue(ManageDomainAtom)
   const [prevCacheLen,setPrevCacheLen]= useState(recordCache.length)
+  const navigate = useNavigate()
   console.log(domainObj.name,"do manName")
+
+
+  useEffect(()=>{
+    if(domainObj.name.length == 0 ){
+      navigate("/")
+    }
+  },[])
   
 
   useMemo(()=>{

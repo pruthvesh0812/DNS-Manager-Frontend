@@ -1,13 +1,43 @@
 
-import { useRecoilValue } from "recoil"
-import { RecordCache } from "../../store/atoms/records"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import {  RecordCache} from "../../store/atoms/records"
 
 import AddRecord from "./AddRecord";
 import DisplayRecords from "./DisplayRecords";
 import { recordInterface } from "../../types/recordInterface";
+import axios from "axios";
+import { ENV } from "../../App";
+import { getRecordsForDomain } from "../../pages/ManageDomain";
+import { useState } from "react";
+import Spinner from "./Spinner";
+
+
+
 
 export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,domain:string}) {
   const allRecords = useRecoilValue(RecordCache);
+  const setRecordCache = useSetRecoilState(RecordCache)
+  const [spinner,setSpinner] = useState(false)
+  const addNewRec = async (hostedZoneId:string,newRecord:recordInterface)=>{
+    const newRecordCopy:recordInterface = JSON.parse(JSON.stringify(newRecord));
+  
+    newRecordCopy.record.param.ChangeBatch.Changes[0].Action = "CREATE"
+    newRecordCopy.record.param.HostedZoneId = hostedZoneId
+    const response = await axios.post(`${ENV.VITE_APP_BASE_URL}/api/record/create`, {newRecordCopy,hostedZoneId:hostedZoneId}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    console.log(response)
+    if(response.status == 200){
+      getRecordsForDomain(domain).then((data)=>{
+        setRecordCache(data)
+        setSpinner(false)
+      })
+    }
+  }
+
   const modifiedRecord:recordInterface[] = allRecords.map(eachRecord =>(
     {
      record: {
@@ -39,6 +69,13 @@ export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,do
   console.log(modifiedRecord, "allRecords")
   return (
     <div>
+      {
+        spinner ? (
+          <div>
+            <Spinner />
+          </div>
+        ): <div></div>
+      }
       <div className='grid grid-cols-7'>
         <div className='col-span-1 text-center'>
           <h4 className='text-lg'>Record</h4>
@@ -61,7 +98,7 @@ export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,do
       </div>
 
       <div className="text-black">
-      <AddRecord />
+      <AddRecord addNewRec={addNewRec} hostedZoneId={hostedZoneId} setSpinner={setSpinner}/>
       </div>
 
       {(allRecords.length == 0) ?
@@ -75,7 +112,7 @@ export default function RecordList({hostedZoneId,domain}:{hostedZoneId:string,do
             modifiedRecord.map((record, idx) => {
               console.log(record)
               return <div key={idx} className="text-black">
-                <DisplayRecords record={record} isEdit={false} hostedZoneId={hostedZoneId} domain={domain}/>
+                <DisplayRecords record={record} isEdit={false} hostedZoneId={hostedZoneId} domain={domain} setSpinner={setSpinner}/>
               </div>
             })
           }
