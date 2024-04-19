@@ -81,7 +81,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
                     <input
                         type="text"
                         placeholder='Search'
-                        className='pl-10 rounded-sm w-full h-12 hover:border-gray-100 focus:border focus:border-orange-100'
+                        className='pl-10 rounded-sm w-full h-12 text-black hover:border-gray-100 focus:border focus:border-orange-100'
                         onChange={ (e) => {
                             searchbyRecord(e.target.value,e.target.value.length)
                             console.log(e.target.value, "lsdfkjal")
@@ -102,7 +102,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
                     <input
                         type="text"
                         placeholder='Search'
-                        className='pl-10 rounded-sm w-full h-12 hover:border-gray-100 focus:border focus:border-orange-100'
+                        className='pl-10 rounded-sm w-full h-12 text-black hover:border-gray-100 focus:border focus:border-orange-100'
                         onChange={(e) => {
                             searchbyDomain(e.target.value)
                             
