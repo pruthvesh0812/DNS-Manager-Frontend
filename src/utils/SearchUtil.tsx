@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 // import { recordInterface } from "../types/recordInterface";
 import search from "../img/search.png"
 import { getRecordsForDomain } from "../pages/ManageDomain";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { domainType } from "../types/domainTypes";
 
 // const allDomains = [
