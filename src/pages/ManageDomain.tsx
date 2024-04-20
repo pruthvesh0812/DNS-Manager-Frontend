@@ -49,6 +49,7 @@ function ManageDomain() {
   const newRecord = useRecoilValue(singleRecord)
   const domainObj = useRecoilValue(ManageDomainAtom)
   const [prevCacheLen,setPrevCacheLen]= useState(recordCache.length)
+  const [modifiedRecord,setModifiedRecord] = useState<recordInterface[]>([])
   const navigate = useNavigate()
   console.log(domainObj.name,"do manName")
 
@@ -74,9 +75,9 @@ function ManageDomain() {
     
     
   },[newRecord])
-    let modifiedRecord:recordInterface[]=[]
+ 
     if(prevCacheLen != recordCache.length){
-       modifiedRecord= recordCache.map(eachRecord =>(
+       const recordCacheCopy= recordCache.map(eachRecord =>(
          {
           record: {
             param: {
@@ -104,7 +105,8 @@ function ManageDomain() {
         },
         routingPolicy: "Simple Routing"
       }))
-      console.log("this is modifiedRecord",modifiedRecord)
+      setModifiedRecord(recordCacheCopy)
+      console.log("this is modifiedRecord",recordCacheCopy)
       setAllRecords(prev => [...prev,...modifiedRecord])
       setPrevCacheLen(recordCache.length)
     }
@@ -116,7 +118,7 @@ function ManageDomain() {
     // },[recordCache])
 
   
- 
+ console.log(modifiedRecord,"mr")
 
   return (
 

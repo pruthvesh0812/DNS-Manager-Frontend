@@ -79,7 +79,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
             setTimeout(() => {
                 
                 setAllDomains(filteredDomains)
-            }, 1000)
+            }, 0)
         }
         else{
             if(domains){

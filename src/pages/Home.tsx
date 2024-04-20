@@ -4,7 +4,7 @@ import NavBar from '../components/ui/NavBar'
 
 
 
-import Filter from '../components/ui/Filter'
+// import Filter from '../components/ui/Filter'
 import AddDomain from './AddDomain'
 
 import DomainCard from '../components/domain/Domain'
@@ -18,7 +18,7 @@ import SearchUtil from '../utils/SearchUtil';
 import Spinner from '../components/ui/Spinner'
 import { SpinnerState } from '../store/atoms/Spinner'
 import { ReloadPageState } from '../store/atoms/ReloadPage'
-import { Record } from '../store/atoms/records'
+// import { Record } from '../store/atoms/records'
 // import { BASE_URL } from '../App'
 const ENV = import.meta.env
 
@@ -34,7 +34,7 @@ function Home() {
   const spinner = useRecoilValue(SpinnerState)
   const setSpinner = useSetRecoilState(SpinnerState)
   const reload = useRecoilValue(ReloadPageState)
-  const allRecords = useRecoilValue(Record)
+  // const allRecords = useRecoilValue(Record)
   // const [spinner,setSpinner] = useState(false)
   useEffect(()=>{
 
@@ -77,9 +77,6 @@ function Home() {
   }, [])
 
 
- 
-
-
   return (
     <div className='flex bg-[#08141f] h-[100vh]'>
       <NavBar />
@@ -97,12 +94,10 @@ function Home() {
       <div className='px-20 w-[80vw] '>
       
         <div className='grid grid-cols-5 mt-2 mb-3 gap-x-2 pt-20'>
-          <div className='col-span-3'>
+          <div className='col-span-4'>
             <SearchUtil searchType='domain' />
           </div>
-          <div className='col-span-1'>
-            <Filter allRecords={allRecords}/>            
-          </div>
+          
           <div className='col-span-1'>
             <button onClick={() => {
                 setIsModal(true);

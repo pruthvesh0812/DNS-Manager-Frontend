@@ -1,9 +1,11 @@
-import {  useState } from 'react'
+import {  useEffect, useState } from 'react'
 import down from '../../img/down.png'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { Domain } from '../../store/atoms/domains'
+import {  useSetRecoilState } from 'recoil'
+// import { Domain } from '../../store/atoms/domains'
 
 import { recordInterface } from '../../types/recordInterface'
+import {  RecordCache } from '../../store/atoms/records'
+import { recordResType } from '../../types/recordType'
 
 const filterList = [
   {
@@ -28,29 +30,65 @@ type filterList = {
 const FilterList = ({filterList,allRecords}:{filterList:filterList[],allRecords:recordInterface[]})=>{
   // const [filter,setFilter] = useState<{filterType:string,filter:string}>({filterType:"",filter:""})
   
-  const allDomains = useRecoilValue(Domain)
-  const setAllDomains = useSetRecoilState(Domain)
+  // const allDomains = useRecoilValue(Domain)
+  const setRecords = useSetRecoilState(RecordCache)
+  const [filterChange,setFilterChange] = useState(true)
+  const [allRecordRollBack,RecordRollBack] = useState<recordInterface[]>([])
+
+  useEffect(()=>{
+    RecordRollBack(allRecords)
+  },[])
 
   const handleFilterChange = (filter:{filterType:string,filter:string})=>{
-    const filteredRecords = allRecords.filter(record => {
-      switch(filter.filterType){
-        case "Type":
-          return (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Type === filter.filter)
-        case "Policy":
-          return (record.routingPolicy === (filter.filter+" Routing"))
-        case "Alias":
-                  // string to boolean                                                   
-          return (!!filter.filter == false) ? 
-                    // return those who are undefined if false     
-                  (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget === undefined)
-                  : 
-                    // return those who are defined if true
-                  (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget != undefined)
-      }
-    })
-
-    const filteredDomains = allDomains.filter(domain => filteredRecords.some(record=> record.record.param.HostedZoneId === domain.hostedZoneId))
-    setAllDomains(filteredDomains)
+    console.log(filter, 'filter', allRecords)
+    if(filterChange){
+      setFilterChange(prev => !prev)
+      const filteredRecords = allRecords.filter(record => {
+        switch(filter.filterType){
+          case "Type":
+            return (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Type === filter.filter)
+          case "Policy":
+            return (record.routingPolicy === (filter.filter+" Routing"))
+          case "Alias":
+                    // string to boolean                                                   
+            return (!!filter.filter == false) ? 
+                      // return those who are undefined if false     
+                    (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget === undefined)
+                    : 
+                      // return those who are defined if true
+                    (record.record.param.ChangeBatch.Changes[0].ResourceRecordSet.AliasTarget != undefined)
+        }
+        
+      })
+      
+      console.log(filteredRecords,"sdfa")
+  
+      const filteredRecordsResType:recordResType[] = filteredRecords.map((rec)=>{
+        return {
+          Name:rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name,
+          ResourceRecords:(rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords) ? rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords: [{Value:""}],
+          TTL:(rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL) ? rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL :  0,
+          Type:rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Type
+        }
+      })
+  
+      setRecords([...filteredRecordsResType])
+    }
+    else{
+      setFilterChange(prev => !prev)
+      const allRecordsResType:recordResType[] = allRecordRollBack.map((rec)=>{
+        return {
+          Name:rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Name,
+          ResourceRecords:(rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords) ? rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.ResourceRecords: [{Value:""}],
+          TTL:(rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL) ? rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.TTL :  0,
+          Type:rec.record.param.ChangeBatch.Changes[0].ResourceRecordSet.Type
+        }
+      })
+      setRecords(allRecordsResType)
+    }
+    
+    // const filteredDomains = allDomains.filter(domain => filteredRecords.some(record=> record.record.param.HostedZoneId === domain.hostedZoneId))
+    
   }
 
  
@@ -60,13 +98,13 @@ const FilterList = ({filterList,allRecords}:{filterList:filterList[],allRecords:
       {
         filterList.map(eachFilter =>{
           return (
-            <div className='my-2' id={eachFilter.filterType}>
+            <div className='my-2' key={eachFilter.filterType}>
               <label className='font-bold text-lg' >{eachFilter.filterType}</label>
               <div className='grid grid-cols-8 gap-x-2'>
                 {
                   eachFilter.filter.map(filterVal =>{
                    return (
-                    <div id={filterVal} className='col-span-3'>
+                    <div key={filterVal} className='col-span-3'>
                        <input type="checkbox" value={filterVal} onChange={(e)=>{
                           handleFilterChange({filterType:eachFilter.filterType,filter:e.target.value})
                        }}/>
@@ -89,7 +127,7 @@ export default function Filter({allRecords}:{allRecords:recordInterface[]}) {
   const [isOpen, setIsOpen] = useState(false);
 
   // const names = ['Type', 'Routing Policy', 'Alice', 'TTL']; // Sample list of names
-
+  console.log(allRecords)
   const toggleFilter = () => {
     setIsOpen(!isOpen);
   };
