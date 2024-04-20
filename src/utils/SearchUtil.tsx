@@ -43,6 +43,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
 
             if(filteredRecords.length == 0){
                 console.log("sdf")
+                setAllRecords([])
             }
             else{
                 setAllRecords(filteredRecords)
@@ -65,6 +66,7 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
 
     }
     useEffect(()=>{
+        console.log(allDomains,"search all domaina")
         setDomains(allDomains)
     },[])
 

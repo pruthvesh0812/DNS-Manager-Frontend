@@ -170,7 +170,7 @@ export default function AddRecord({addNewRec,hostedZoneId,setSpinner}:{addNewRec
                     />
                 </div>
 
-                <div className='col-span-1  text-center'>
+                <div className='col-span-1  text-center '>
                     {/* <input
                         type="text"
                         className='text-lg shadow-inner bg-slate-100 px-1 h-[5vh] w-[7vw] rounded-sm '
