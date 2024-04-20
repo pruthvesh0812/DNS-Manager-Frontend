@@ -65,10 +65,9 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
 
 
     }
-    useEffect(()=>{
-        console.log(allDomains,"search all domaina")
-        setDomains(allDomains)
-    },[])
+    
+
+    
 
 
     const searchbyDomain = (searchPattern: string) => {
@@ -113,7 +112,10 @@ export default function SearchUtil({ searchType,domain }: { searchType: string, 
     }
     else {
         return (
-            <div>
+            <div onMouseEnter={()=>{
+                    console.log(allDomains,"search all domaina on enter")
+                    setDomains(allDomains)
+            }}>
 
                 <div className='relative'>
                     <input
